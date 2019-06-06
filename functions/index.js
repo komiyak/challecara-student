@@ -7,5 +7,16 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 });
 
 exports.addMessage = functions.https.onCall((data, context) => {
+    if (context.auth) {
+        const uid = context.auth.uid;
+        const name = context.auth.token.name || null;
+        const picture = context.auth.token.picture || null;
+        const email = context.auth.token.email || null;
+
+        console.log(`uid: ${uid}, name: ${name}, picture: ${picture}, email: ${email}`);
+    } else {
+        console.log('non authorized user.');
+    }
+
     return {message: "addMessage"};
 });
