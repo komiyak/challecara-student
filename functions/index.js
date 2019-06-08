@@ -46,20 +46,34 @@ exports.studentEntrance = functions.https.onRequest((request, response) => {
         `&scope=openid%20profile%20email`);
 });
 
-// @query code The authorization code from LINE Login.
-// @query state
-exports.signInLineCallback = functions.https.onCall(async (data) => {
+// @data code (required) The authorization code from LINE Login.
+// @data state (required) 学生情報を含む state 値
+exports.lineCallback = functions.https.onCall(async (data) => {
+    const code = data.code;
+    const state = data.state;
+    if (!code || !state) {
+        throw new functions.https.HttpsError('missing-argument');
+    }
+
+    // FIXME: state は JWT にしなければ、改ざんの可能性がある
+    const decodedState = JSON.parse(new Buffer(state, 'base64').toString('ascii'));
+
+    console.log('Student UID: ', decodedState.uid);
+    console.log('Year: ', decodedState.year);
+
     const {request} = require('gaxios');
     const res = await request({
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         method: 'POST',
         url: 'https://api.line.me/oauth2/v2.1/token',
         data: `grant_type=authorization_code` +
-            `&code=${data.code}` +
+            `&code=${code}` +
             `&redirect_uri=${functions.config().line_login.redirect_uri}` +
             `&client_id=${functions.config().line_login.client_id}` +
             `&client_secret=${functions.config().line_login.channel_secret}`
     });
+
+    // TODO: LINE の UID と Student マスターの UID を紐付けるデータを Firestore に登録する。
 
     console.log(pj(res));
 });

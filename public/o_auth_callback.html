@@ -38,7 +38,7 @@
         // For development
         firebase.functions().useFunctionsEmulator('http://localhost:5001');
 
-        const signInLineCallback = firebase.functions().httpsCallable('signInLineCallback');
+        const signInLineCallback = firebase.functions().httpsCallable('lineCallback');
         signInLineCallback({code: query.code, state: query.state}).then((result) => {
             console.log('successful');
         });
