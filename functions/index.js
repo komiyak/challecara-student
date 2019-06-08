@@ -46,18 +46,6 @@ exports.studentEntrance = functions.https.onRequest((request, response) => {
         `&scope=openid%20profile%20email`);
 });
 
-exports.signInLine = functions.https.onRequest((request, response) => {
-    // FIXME: Need a correct state.
-    const dummyState = '12345abcde';
-
-    response.redirect(
-        `https://access.line.me/oauth2/v2.1/authorize` +
-        `?response_type=code` +
-        `&client_id=${functions.config().line_login.client_id}` +
-        `&redirect_uri=${functions.config().line_login.redirect_uri}` +
-        `&state=${dummyState}&scope=openid%20profile%20email`);
-});
-
 // @query code The authorization code from LINE Login.
 // @query state
 exports.signInLineCallback = functions.https.onCall(async (data) => {
