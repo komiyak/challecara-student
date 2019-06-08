@@ -12,9 +12,38 @@ const ppj = (obj) => {
     return JSON.stringify(obj, null, 2);
 };
 
-
 exports.helloWorld = functions.https.onRequest((request, response) => {
     response.send("Hello from Firebase!");
+});
+
+// GET studentEntrance
+// @query uid (required) チャレキャラ参加学生のマスターUID
+// @query year (required) チャレキャラ年度
+exports.studentEntrance = functions.https.onRequest((request, response) => {
+    const uid = request.query.uid;
+    const year = request.query.year;
+
+    if (!uid || !year) {
+        response.status(400).end();
+        return;
+    }
+
+    // state チェック用の乱数を得る
+    const crypto = require('crypto');
+    const stateRand = crypto.randomBytes(8).toString('hex');
+
+    const state = JSON.stringify({
+        token: stateRand, uid: uid, year: year
+    });
+    const encodedState = Buffer.from(state).toString('base64');
+
+    response.redirect(
+        `https://access.line.me/oauth2/v2.1/authorize` +
+        `?response_type=code` +
+        `&client_id=${functions.config().line_login.client_id}` +
+        `&redirect_uri=${functions.config().line_login.redirect_uri}` +
+        `&state=${encodedState}` +
+        `&scope=openid%20profile%20email`);
 });
 
 exports.signInLine = functions.https.onRequest((request, response) => {
