@@ -58,7 +58,7 @@ exports.syncStudentRecords = functions.https.onRequest(async (request, response)
         response.status(400).end();
         return;
     }
-    if (apiKey !== functions.config().api_key) {
+    if (apiKey !== functions.config().core.api_key) {
         response.status(401).end();
         return;
     }
