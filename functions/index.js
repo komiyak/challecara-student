@@ -2,6 +2,10 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
+const {google} = require('googleapis');
+const {auth} = require('google-auth-library');
+const sheets = google.sheets('v4');
+
 // noinspection JSUnusedLocalSymbols
 const pj = (obj) => {
     return JSON.stringify(obj);
@@ -44,6 +48,39 @@ exports.studentEntrance = functions.https.onRequest((request, response) => {
         `&redirect_uri=${functions.config().line_login.redirect_uri}` +
         `&state=${encodedState}` +
         `&scope=openid%20profile%20email`);
+});
+
+// @header 'Api-Key:' (required)
+exports.syncStudentRecords = functions.https.onRequest(async (request, response) => {
+    const apiKey = request.header('Api-Key');
+
+    if (!apiKey) {
+        response.status(400).end();
+        return;
+    }
+    if (apiKey !== functions.config().api_key) {
+        response.status(401).end();
+        return;
+    }
+
+    const client = await auth.getClient({
+        scopes: 'https://www.googleapis.com/auth/spreadsheets'
+    });
+    const apiOptions = {
+        auth: client,
+        spreadsheetId: functions.config().student_record.spreadsheet_id,
+        range: 'School!B2:B6'
+    };
+
+    sheets.spreadsheets.values.get(apiOptions, (err, res) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log(res.data.values);
+    });
+
+    response.send("OK student!");
 });
 
 // @data code (required) The authorization code from LINE Login.
