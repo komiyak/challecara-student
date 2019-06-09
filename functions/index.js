@@ -74,6 +74,7 @@ exports.lineCallback = functions.https.onCall(async (data) => {
     });
 
     // TODO: LINE の UID と Student マスターの UID を紐付けるデータを Firestore に登録する。
+    // LINE UID をユニークなものとする。
 
     console.log(pj(res));
 });
