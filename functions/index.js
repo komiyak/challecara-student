@@ -95,11 +95,13 @@ exports.syncStudentRecords = functions.https.onRequest(async (request, response)
             const name = values[1];
             const phoneticName = values[2];
 
-            // eslint-disable-next-line no-await-in-loop
-            await students.doc(uid).set({
-                name: name,
-                phoneticName: phoneticName
-            });
+            if (uid && name && phoneticName) {
+                // eslint-disable-next-line no-await-in-loop
+                await students.doc(uid).set({
+                    name: name,
+                    phoneticName: phoneticName
+                });
+            }
         }
     }
 
