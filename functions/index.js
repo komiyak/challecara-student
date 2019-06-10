@@ -50,6 +50,7 @@ exports.studentEntrance = functions.https.onRequest((request, response) => {
         `&scope=openid%20profile%20email`);
 });
 
+// GET syncStudentRecords
 // Student Record スプレッドシートからデータを取得し、Firestore に反映する
 // @header 'Api-Key:' (required)
 exports.syncStudentRecords = functions.https.onRequest(async (request, response) => {
