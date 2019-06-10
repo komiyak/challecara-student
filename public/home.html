@@ -91,16 +91,9 @@
 </head>
 <body>
 <div id="message">
-    <h2>Welcome</h2>
-    <h1>Firebase Hosting Setup Complete</h1>
-    <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something
-        extraordinary!</p>
-    <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    <h2>The HOME</h2>
 </div>
 <p id="load">Firebase SDK Loading&hellip;</p>
-
-<div id="firebaseui-auth-container"></div>
-<div id="loader">Loading...</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -119,31 +112,14 @@
             let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
             document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
 
-            // var addMessage = firebase.functions().httpsCallable('addMessage');
-            // addMessage({test: "hello world"}).then((result) => {
-            //     console.log(result.data);
-            // });
+            var addMessage = firebase.functions().httpsCallable('addMessage');
+            addMessage({test: "hello world"}).then((result) => {
+                console.log(result.data);
+            });
         } catch (e) {
             console.error(e);
             document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
         }
-
-        const ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-        ui.start('#firebaseui-auth-container', {
-            callbacks: {
-                uiShown: () => {
-                    document.getElementById('loader').style.display = 'none';
-                }
-            },
-            signInSuccessUrl: '/home.html',
-            signInOptions: [{
-                provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                requireDisplayName: false
-            }],
-            tosUrl: '/terms-of-service',
-            privacyPolicyUrl: '/privacy-policy'
-        });
     });
 </script>
 </body>

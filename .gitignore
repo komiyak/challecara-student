@@ -63,4 +63,9 @@ node_modules/
 
 # dotenv environment variables file
 .env
+# Secret environment file.
+service-account.json
+functions/.runtimeconfig.json
+
+# Project directory.
 .idea/
