@@ -169,9 +169,6 @@ exports.lineCallback = functions.https.onRequest(async (request, response) => {
     // FIXME: state は JWT にしなければ、改ざんの可能性がある
     const decodedState = JSON.parse(new Buffer(state, 'base64').toString('ascii'));
 
-    console.log('Student UID: ', decodedState.uid);
-    console.log('Year: ', decodedState.year);
-
     const gaxios = require('gaxios');
     const res = await gaxios.request({
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -184,11 +181,12 @@ exports.lineCallback = functions.https.onRequest(async (request, response) => {
             `&client_secret=${functions.config().line_login.channel_secret}`
     });
 
+    let user_id = null;
+
     if (res.data.id_token) {
         const jwt = require('jsonwebtoken');
         try {
             const decoded = jwt.verify(res.data.id_token, functions.config().line_login.channel_secret);
-            console.log(ppj(decoded));
 
             const doc = admin.firestore().collection('users').doc(decoded.sub);
             await doc.set({
@@ -197,9 +195,21 @@ exports.lineCallback = functions.https.onRequest(async (request, response) => {
                 emailVerified: true,
                 avatorUrl: decoded.picture
             });
+
+            user_id = decoded.sub;
         } catch (e) {
             console.error(e);
         }
+    }
+
+    // Authentication with Firebase.
+    if (user_id) {
+        await admin.auth().createCustomToken(user_id).then((customToken) => {
+            console.log('Generated custom token: ', customToken);
+            return true;
+        }).catch((err) => {
+            console.error(err);
+        });
     }
 
     response.send('success o auth.');
