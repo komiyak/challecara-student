@@ -50,6 +50,7 @@ exports.studentEntrance = functions.https.onRequest((request, response) => {
         `&scope=openid%20profile%20email`);
 });
 
+// Student Record スプレッドシートからデータを取得し、Firestore に反映する
 // @header 'Api-Key:' (required)
 exports.syncStudentRecords = functions.https.onRequest(async (request, response) => {
     const apiKey = request.header('Api-Key');
@@ -66,19 +67,41 @@ exports.syncStudentRecords = functions.https.onRequest(async (request, response)
     const client = await auth.getClient({
         scopes: 'https://www.googleapis.com/auth/spreadsheets'
     });
-    const apiOptions = {
+
+    const res = await sheets.spreadsheets.values.get({
         auth: client,
         spreadsheetId: functions.config().student_record.spreadsheet_id,
-        range: 'School!B2:B6'
-    };
-
-    sheets.spreadsheets.values.get(apiOptions, (err, res) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log(res.data.values);
+        range: 'School!A2:A30'
     });
+
+    let ranges = [];
+    for (let i = 0; i < res.data.values.length; i++) {
+        const line = 2 + i;
+        ranges.push(`School!A${line}:C${line}`);
+    }
+
+    const batchGetRes = await sheets.spreadsheets.values.batchGet({
+        auth: client,
+        spreadsheetId: functions.config().student_record.spreadsheet_id,
+        ranges: ranges
+    });
+
+    const students = admin.firestore().collection('students');
+
+    if (batchGetRes.data.valueRanges) {
+        for (let i = 0; i < batchGetRes.data.valueRanges.length; i++) {
+            const values = batchGetRes.data.valueRanges[i].values[0];
+            const uid = values[0];
+            const name = values[1];
+            const phoneticName = values[2];
+
+            // eslint-disable-next-line no-await-in-loop
+            await students.doc(uid).set({
+                name: name,
+                phoneticName: phoneticName
+            });
+        }
+    }
 
     response.send("OK student!");
 });
