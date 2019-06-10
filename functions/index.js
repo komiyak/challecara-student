@@ -156,11 +156,12 @@ exports.syncStudentRecords = functions.https.onRequest(async (request, response)
     response.status(204).end();
 });
 
+// LINE Login 認証連携時のコールバック
 // @data code (required) The authorization code from LINE Login.
 // @data state (required) 学生情報を含む state 値
-exports.lineCallback = functions.https.onCall(async (data) => {
-    const code = data.code;
-    const state = data.state;
+exports.lineCallback = functions.https.onRequest(async (request, response) => {
+    const code = request.query.code;
+    const state = request.query.state;
     if (!code || !state) {
         throw new functions.https.HttpsError('missing-argument');
     }
@@ -171,8 +172,8 @@ exports.lineCallback = functions.https.onCall(async (data) => {
     console.log('Student UID: ', decodedState.uid);
     console.log('Year: ', decodedState.year);
 
-    const {request} = require('gaxios');
-    const res = await request({
+    const gaxios = require('gaxios');
+    const res = await gaxios.request({
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         method: 'POST',
         url: 'https://api.line.me/oauth2/v2.1/token',
@@ -183,10 +184,25 @@ exports.lineCallback = functions.https.onCall(async (data) => {
             `&client_secret=${functions.config().line_login.channel_secret}`
     });
 
-    // TODO: LINE の UID と Student マスターの UID を紐付けるデータを Firestore に登録する。
-    // LINE UID をユニークなものとする。
+    if (res.data.id_token) {
+        const jwt = require('jsonwebtoken');
+        try {
+            const decoded = jwt.verify(res.data.id_token, functions.config().line_login.channel_secret);
+            console.log(ppj(decoded));
 
-    console.log(pj(res));
+            const doc = admin.firestore().collection('users').doc(decoded.sub);
+            await doc.set({
+                studentUid: decodedState.uid,
+                email: decoded.email,
+                emailVerified: true,
+                avatorUrl: decoded.picture
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    response.send('success o auth.');
 });
 
 exports.addMessage = functions.https.onCall((data, context) => {
