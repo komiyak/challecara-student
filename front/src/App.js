@@ -1,6 +1,6 @@
 import React from 'react';
 import btnLineLoginBase from 'images/1x/btn_line_login_base.png';
-import 'App.css';
+import 'App.scss';
 
 function App() {
     return (
