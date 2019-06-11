@@ -1,5 +1,6 @@
-# The app for Challecara students.
+# challecara-student
 
+The app for Challecara students.
 
 # How to request a callable function with curl?
 
