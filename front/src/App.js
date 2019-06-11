@@ -1,5 +1,6 @@
 import React from 'react';
-import './App.css';
+import btnLineLoginBase from 'images/1x/btn_line_login_base.png';
+import 'App.css';
 
 function App() {
     return (
@@ -30,6 +31,9 @@ function App() {
                 </span>
                 <span>LINEでログイン</span>
             </a>
+
+            <img src={btnLineLoginBase} alt="Button"/>
+            <a className="buttonLineLogin">LINE Login</a>
         </div>
     );
 }

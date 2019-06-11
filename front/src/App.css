@@ -1,0 +1,31 @@
+.buttonLineLogin {
+    display: block;
+    width: 151px;
+    height: 44px;
+    background-image: url(images/1x/btn_line_login_base.png);
+    text-indent: -99999px;
+}
+
+.buttonLineLogin:hover {
+    background-image: url(images/1x/btn_line_login_hover.png);
+}
+
+.buttonLineLogin:active {
+    background-image: url(images/1x/btn_line_login_press.png);
+}
+
+/* A setting for the high-res display. See: https://stackoverflow.com/a/16154726/1872674 */
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .buttonLineLogin {
+        background-image: url(images/2x/btn_line_login_base.png);
+        background-size: 151px 44px;
+    }
+
+    .buttonLineLogin:hover {
+        background-image: url(images/2x/btn_line_login_hover.png);
+    }
+
+    .buttonLineLogin:active {
+        background-image: url(images/2x/btn_line_login_press.png);
+    }
+}
