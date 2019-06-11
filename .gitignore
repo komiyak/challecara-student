@@ -43,6 +43,10 @@ bower_components
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
+# Public directory out of using React.
+public/**/*.*
+!public/.keep
+
 # Dependency directories
 node_modules/
 
