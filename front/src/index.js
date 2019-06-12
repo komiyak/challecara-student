@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+
 import './index.css';
 import App from './App';
+import NoMatch from './components/NoMatch';
 import * as serviceWorker from './serviceWorker';
 
 import {Provider} from 'react-redux';
@@ -19,7 +22,12 @@ const store = createStore(reducer, applyMiddleware(...middleware));
 
 ReactDOM.render(
     <Provider store={store}>
-        <App/>
+        <Router>
+            <Switch>
+                <Route path="/student-entrance/:student_id" component={App}/>
+                <Route component={NoMatch}/>
+            </Switch>
+        </Router>
     </Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

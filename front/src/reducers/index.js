@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
-import visibilityFilter from './visibilityFilter';
+import newcomer from './newcomer';
 
 export default combineReducers({
-    visibilityFilter
+    newcomer
 });
