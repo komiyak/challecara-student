@@ -1,6 +1,7 @@
 # challecara-student
 
-The app for Challecara students.
+The app for students of the Challecara.
+The Challecara is a community of software development with college students in Fukuoka, Japan! 
 
 # How to request a callable function with curl?
 
