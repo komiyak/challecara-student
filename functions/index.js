@@ -163,7 +163,7 @@ exports.lineCallback = functions.https.onRequest(async (request, response) => {
     const code = request.query.code;
     const state = request.query.state;
     if (!code || !state) {
-        throw new functions.https.HttpsError('missing-argument');
+        throw new functions.https.HttpsError('invalid-argument', 'Need arguments "code" and "state"');
     }
 
     // FIXME: state は JWT にしなければ、改ざんの可能性がある
@@ -193,7 +193,7 @@ exports.lineCallback = functions.https.onRequest(async (request, response) => {
                 studentUid: decodedState.uid,
                 email: decoded.email,
                 emailVerified: true,
-                avatorUrl: decoded.picture
+                avatarUrl: decoded.picture
             });
 
             user_id = decoded.sub;
