@@ -215,6 +215,27 @@ exports.lineCallback = functions.https.onRequest(async (request, response) => {
     response.send('success o auth.');
 });
 
+// @param data.id
+exports.getStudent = functions.https.onCall(async (data) => {
+    const id = data.id;
+    if (!id) {
+        throw new functions.https.HttpsError('invalid-argument', 'Need an argument "id".');
+    }
+
+    const students = admin.firestore().collection('students');
+    const student = await students.doc(id).get();
+    if (student.exists) {
+        return {
+            student: {
+                id: student.id,
+                fields: {fullName: `${student.get('sei')} ${student.get('mei')}`}
+            }
+        };
+    } else {
+        return {student: null};
+    }
+});
+
 exports.addMessage = functions.https.onCall((data, context) => {
     if (context.auth) {
         const uid = context.auth.uid;
