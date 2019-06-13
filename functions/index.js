@@ -20,16 +20,18 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
     response.send("Hello from Firebase!");
 });
 
-// GET studentEntrance
-// @query uid (required) チャレキャラ参加学生のマスターUID
-// @query year (required) チャレキャラ年度
-exports.studentEntrance = functions.https.onRequest((request, response) => {
-    const uid = request.query.uid;
-    const year = request.query.year;
-
-    if (!uid || !year) {
-        response.status(400).end();
-        return;
+// LINE Login 用の URL を取得する
+// @param data.redirectUrl (required) OAuth のリダイレクトURL
+// @param data.studentId (required) チャレキャラ参加学生のマスターUID
+// @param data.year (required) チャレキャラ年度
+exports.getOAuthUrl = functions.https.onCall(async (data) => {
+    const redirectUrl = data.redirectUrl;
+    const studentId = data.studentId;
+    const year = data.year;
+    if (!redirectUrl || !studentId || !year) {
+        throw new functions.https.HttpsError(
+            'invalid-argument',
+            "Need arguments 'redirectUrl', 'studentId' and 'year'.");
     }
 
     // state チェック用の乱数を得る
@@ -37,17 +39,18 @@ exports.studentEntrance = functions.https.onRequest((request, response) => {
     const stateRand = crypto.randomBytes(8).toString('hex');
 
     const state = JSON.stringify({
-        token: stateRand, uid: uid, year: year
+        token: stateRand, uid: studentId, year: year
     });
     const encodedState = Buffer.from(state).toString('base64');
 
-    response.redirect(
-        `https://access.line.me/oauth2/v2.1/authorize` +
-        `?response_type=code` +
-        `&client_id=${functions.config().line_login.client_id}` +
-        `&redirect_uri=${functions.config().line_login.redirect_uri}` +
-        `&state=${encodedState}` +
-        `&scope=openid%20profile%20email`);
+    return {
+        url: `https://access.line.me/oauth2/v2.1/authorize` +
+            `?response_type=code` +
+            `&client_id=${functions.config().line_login.client_id}` +
+            `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
+            `&state=${encodedState}` +
+            `&scope=openid%20profile%20email`
+    };
 });
 
 // GET syncStudentRecords
@@ -176,7 +179,7 @@ exports.lineCallback = functions.https.onRequest(async (request, response) => {
         url: 'https://api.line.me/oauth2/v2.1/token',
         data: `grant_type=authorization_code` +
             `&code=${code}` +
-            `&redirect_uri=${functions.config().line_login.redirect_uri}` +
+//            `&redirect_uri=${functions.config().line_login.redirect_uri}` +
             `&client_id=${functions.config().line_login.client_id}` +
             `&client_secret=${functions.config().line_login.channel_secret}`
     });

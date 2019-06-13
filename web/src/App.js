@@ -9,7 +9,8 @@ class App extends React.Component {
     static propTypes = {
         isFetching: PropTypes.bool.isRequired,
         studentId: PropTypes.string,
-        studentName: PropTypes.string
+        studentName: PropTypes.string,
+        url: PropTypes.string
     };
 
     componentDidMount() {
@@ -38,7 +39,7 @@ class App extends React.Component {
                     </div>
 
                     {/* eslint-disable-next-line */}
-                    <p><a className="buttonLineLogin" href='#'>LINE Login</a></p>
+                    <p><a className="buttonLineLogin" href={this.props.url ? this.props.url : ""}>LINE Login</a></p>
                 </div>
                 }
 
@@ -51,6 +52,7 @@ export default connect(state => {
     return {
         isFetching: state.newcomer.isFetching,
         studentId: state.newcomer.student && state.newcomer.student.id,
-        studentName: state.newcomer.student && state.newcomer.student.name
+        studentName: state.newcomer.student && state.newcomer.student.name,
+        url: state.newcomer.oAuthUrl
     };
 })(App);

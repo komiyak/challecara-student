@@ -22,15 +22,18 @@ const newcomer = (state = {
         case rootAction.action.REQUEST_STUDENT:
             return {
                 ...state,
-                isFetching: true,
-                didInvalidate: false
+                isFetching: true
             };
         case rootAction.action.RECEIVE_STUDENT:
             return {
                 ...state,
-                isFetching: false,
-                didInvalidate: false,
                 student: student(state[student], action)
+            };
+        case rootAction.action.RECEIVE_O_AUTH_URL:
+            return {
+                ...state,
+                isFetching: false,
+                oAuthUrl: action.data.url
             };
         default:
             return state;

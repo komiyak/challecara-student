@@ -13,7 +13,8 @@ firebase.initializeApp({
 
 export const action = {
     REQUEST_STUDENT: 'root/REQUEST_STUDENT',
-    RECEIVE_STUDENT: 'root/RECEIVE_STUDENT'
+    RECEIVE_STUDENT: 'root/RECEIVE_STUDENT',
+    RECEIVE_O_AUTH_URL: 'root/RECEIVE_O_AUTH_URL'
 };
 
 export const actionCreator = {
@@ -23,6 +24,11 @@ export const actionCreator = {
     }),
     receiveStudent: (data) => ({
         type: action.RECEIVE_STUDENT,
+        data: data,
+        receivedAt: Date.now()
+    }),
+    receiveOAuthUrl: data => ({
+        type: action.RECEIVE_O_AUTH_URL,
         data: data,
         receivedAt: Date.now()
     })
@@ -49,6 +55,23 @@ const shouldFetchStudent = (state) => {
 export const fetchStudentIfNeeded = match => (dispatch, getState) => {
     if (shouldFetchStudent(getState())) {
         const studentId = match.params.student_id;
-        return dispatch(fetchStudent(studentId));
+
+        dispatch(actionCreator.requestStudent(studentId));
+
+        firebase.functions().httpsCallable('getStudent')({id: studentId})
+            .then(result => {
+                //console.log('getStudent: ', result);
+                dispatch(actionCreator.receiveStudent(result.data));
+                return firebase.functions().httpsCallable('getOAuthUrl')({
+                    redirectUrl: 'http://localhost:3000/student-entrance/line-callback/',
+                    studentId: studentId,
+                    year: 2019
+                });
+            })
+            .then(result => {
+                //console.log('getOAuthUrl: ', result);
+                dispatch(actionCreator.receiveOAuthUrl(result.data));
+            });
+
     }
 };
