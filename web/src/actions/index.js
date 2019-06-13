@@ -57,7 +57,7 @@ export const fetchStudentIfNeeded = match => (dispatch, getState) => {
                 //console.log('getStudent: ', result);
                 dispatch(actionCreator.receiveStudent(result.data));
                 return firebase.functions().httpsCallable('getOAuthUrl')({
-                    redirectUrl: 'http://localhost:3000/student-entrance/line-callback/',
+                    redirectUrl: process.env.REACT_APP_O_AUTH_CALLBACK_URL,
                     studentId: studentId,
                     year: 2019
                 });
