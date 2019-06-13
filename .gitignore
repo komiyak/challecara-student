@@ -66,10 +66,10 @@ node_modules/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+/.env
 # Secret environment file.
-service-account.json
-functions/.runtimeconfig.json
+/service-account.json
+/functions/.runtimeconfig.json
 
 # Project directory.
 .idea/
