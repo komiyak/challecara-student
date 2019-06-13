@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import './index.css';
 import App from './App';
+import NewcomerCallback from './containers/NewcomerCallback';
 import NoMatch from './components/NoMatch';
 import * as serviceWorker from './serviceWorker';
 
@@ -24,6 +25,7 @@ ReactDOM.render(
     <Provider store={store}>
         <Router>
             <Switch>
+                <Route exact path="/newcomer/o-auth-callback/" component={NewcomerCallback}/>
                 <Route path="/newcomer/:student_id/" component={App}/>
                 <Route component={NoMatch}/>
             </Switch>
