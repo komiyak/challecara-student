@@ -23,7 +23,7 @@ export const actionCreator = {
         type: action.REQUEST_STUDENT,
         studentId
     }),
-    receiveStudent: (data) => ({
+    receiveStudent: data => ({
         type: action.RECEIVE_STUDENT,
         data: data,
         receivedAt: Date.now()
