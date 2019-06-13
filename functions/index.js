@@ -159,17 +159,22 @@ exports.syncStudentRecords = functions.https.onRequest(async (request, response)
     response.status(204).end();
 });
 
-// LINE Login 認証連携時のコールバック
-// @data code (required) The authorization code from LINE Login.
-// @data state (required) 学生情報を含む state 値
-exports.lineCallback = functions.https.onRequest(async (request, response) => {
-    const code = request.query.code;
-    const state = request.query.state;
-    if (!code || !state) {
-        throw new functions.https.HttpsError('invalid-argument', 'Need arguments "code" and "state"');
+// LINE Login からのアプリ認証
+// @param data.code (required) The authorization code from LINE Login.
+// @param data.state (required) 学生情報を含む state 値
+// @param data.redirectUrl (required) the redirect_url for fetching token from LINE API.
+exports.authenticateWithLine = functions.https.onCall(async (data) => {
+    const code = data.code;
+    const state = data.state;
+    const redirectUrl = data.redirectUrl;
+    if (!code || !state || !redirectUrl) {
+        throw new functions.https.HttpsError(
+            'invalid-argument',
+            'Require arguments "code", "state" and "redirectUrl".');
     }
 
     // FIXME: state は JWT にしなければ、改ざんの可能性がある
+    // FIXME: state 検証を正しくしていない
     const decodedState = JSON.parse(new Buffer(state, 'base64').toString('ascii'));
 
     const gaxios = require('gaxios');
@@ -179,7 +184,7 @@ exports.lineCallback = functions.https.onRequest(async (request, response) => {
         url: 'https://api.line.me/oauth2/v2.1/token',
         data: `grant_type=authorization_code` +
             `&code=${code}` +
-//            `&redirect_uri=${functions.config().line_login.redirect_uri}` +
+            `&redirect_uri=${redirectUrl}` +
             `&client_id=${functions.config().line_login.client_id}` +
             `&client_secret=${functions.config().line_login.channel_secret}`
     });
@@ -207,15 +212,15 @@ exports.lineCallback = functions.https.onRequest(async (request, response) => {
 
     // Authentication with Firebase.
     if (user_id) {
-        await admin.auth().createCustomToken(user_id).then((customToken) => {
+        let result = await admin.auth().createCustomToken(user_id).then((customToken) => {
             console.log('Generated custom token: ', customToken);
-            return true;
+            return customToken;
         }).catch((err) => {
             console.error(err);
         });
     }
 
-    response.send('success o auth.');
+    return {code: 'ok'};
 });
 
 // @param data.id
