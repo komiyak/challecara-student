@@ -24,7 +24,7 @@ ReactDOM.render(
     <Provider store={store}>
         <Router>
             <Switch>
-                <Route path="/student-entrance/:student_id" component={App}/>
+                <Route path="/newcomer/:student_id/" component={App}/>
                 <Route component={NoMatch}/>
             </Switch>
         </Router>
