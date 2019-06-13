@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app';
 import "firebase/functions";
 
+// NOTE 将来的には、オプションとして localhost の function を見れるようにしたい
 firebase.initializeApp({
     apiKey: "AIzaSyCuuDnt1RHqFrg9_9uT-b7IGwyXZNeVL5w",
     authDomain: "challecara-student.firebaseapp.com",
