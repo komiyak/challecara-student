@@ -184,7 +184,7 @@ exports.authenticateWithLine = functions.https.onCall(async (data) => {
         url: 'https://api.line.me/oauth2/v2.1/token',
         data: `grant_type=authorization_code` +
             `&code=${code}` +
-            `&redirect_uri=${redirectUrl}` +
+            `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
             `&client_id=${functions.config().line_login.client_id}` +
             `&client_secret=${functions.config().line_login.channel_secret}`
     });
@@ -218,6 +218,7 @@ exports.authenticateWithLine = functions.https.onCall(async (data) => {
         }).catch((err) => {
             console.error(err);
         });
+        console.log('The result: ', result);
     }
 
     return {code: 'ok'};
