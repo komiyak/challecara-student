@@ -14,11 +14,38 @@ const student = (state = {}, action) => {
     }
 };
 
+const step2 = (state = {invalid: true}, action) => {
+    // noinspection JSRedundantSwitchStatement
+    switch (action.type) {
+        case rootAction.action.REQUEST_AUTHENTICATION:
+            return {
+                ...state,
+                invalid: true,
+                isFetching: true
+            };
+        case rootAction.action.RECEIVE_AUTHENTICATION:
+            return {
+                ...state,
+                invalid: false,
+                isFetching: false,
+            };
+        default:
+            return state;
+    }
+};
+
 const newcomer = (state = {
     isFetching: false,
     didInvalidate: false
 }, action) => {
     switch (action.type) {
+        case rootAction.action.REQUEST_AUTHENTICATION:
+        case rootAction.action.RECEIVE_AUTHENTICATION:
+            return {
+                ...state,
+                step2: step2(state[step2], action)
+            };
+
         case rootAction.action.REQUEST_STUDENT:
             return {
                 ...state,

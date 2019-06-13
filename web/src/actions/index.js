@@ -15,7 +15,9 @@ firebase.initializeApp({
 export const action = {
     REQUEST_STUDENT: 'root/REQUEST_STUDENT',
     RECEIVE_STUDENT: 'root/RECEIVE_STUDENT',
-    RECEIVE_O_AUTH_URL: 'root/RECEIVE_O_AUTH_URL'
+    RECEIVE_O_AUTH_URL: 'root/RECEIVE_O_AUTH_URL',
+    REQUEST_AUTHENTICATION: 'root/REQUEST_AUTHENTICATION',
+    RECEIVE_AUTHENTICATION: 'root/RECEIVE_AUTHENTICATION'
 };
 
 export const actionCreator = {
@@ -30,6 +32,14 @@ export const actionCreator = {
     }),
     receiveOAuthUrl: data => ({
         type: action.RECEIVE_O_AUTH_URL,
+        data: data,
+        receivedAt: Date.now()
+    }),
+    requestAuthentication: () => ({
+        type: action.REQUEST_AUTHENTICATION
+    }),
+    receiveAuthentication: data => ({
+        type: action.RECEIVE_AUTHENTICATION,
         data: data,
         receivedAt: Date.now()
     })
@@ -68,5 +78,23 @@ export const fetchStudentIfNeeded = match => (dispatch, getState) => {
                 dispatch(actionCreator.receiveOAuthUrl(result.data));
             });
 
+    }
+};
+
+export const authenticate = (location) => (dispatch) => {
+    const queryString = require('query-string');
+    const queries = queryString.parse(location.search);
+
+    const code = queries.code;
+    const state = queries.state;
+
+    if (code && state) {
+        dispatch(actionCreator.requestAuthentication());
+
+        firebase.functions().httpsCallable('authenticateWithLine')({code, state, redirectUrl: process.env.REACT_APP_O_AUTH_CALLBACK_URL})
+            .then(result => {
+                console.log('authenticateWithLine: ', result);
+                dispatch(actionCreator.receiveAuthentication(result.data));
+            });
     }
 };
