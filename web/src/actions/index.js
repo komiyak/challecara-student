@@ -34,12 +34,6 @@ export const actionCreator = {
     })
 };
 
-const fetchStudent = studentId => dispatch => {
-    dispatch(actionCreator.requestStudent(studentId));
-    return firebase.functions().httpsCallable('getStudent')({id: studentId})
-        .then(result => dispatch(actionCreator.receiveStudent(result.data)));
-};
-
 const shouldFetchStudent = (state) => {
     const newcomer = state.newcomer;
     if (!newcomer.student) {
