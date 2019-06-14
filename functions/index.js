@@ -212,16 +212,15 @@ exports.authenticateWithLine = functions.https.onCall(async (data) => {
 
     // Authentication with Firebase.
     if (user_id) {
-        let result = await admin.auth().createCustomToken(user_id).then((customToken) => {
-            console.log('Generated custom token: ', customToken);
-            return customToken;
-        }).catch((err) => {
+        try {
+            const result = await admin.auth().createCustomToken(user_id);
+            return {code: 'ok', token: result};
+        } catch (err) {
             console.error(err);
-        });
-        console.log('The result: ', result);
+        }
     }
 
-    return {code: 'ok'};
+    return {code: 'error'};
 });
 
 // @param data.id
