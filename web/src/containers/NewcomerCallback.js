@@ -6,8 +6,6 @@ import {authenticate} from "../actions";
 
 class NewcomerCallback extends React.Component {
     componentDidMount() {
-        //this.props.
-
         console.log('NewcomerCallback#componentDidMount');
         this.props.dispatch(authenticate(this.props.location));
     }
