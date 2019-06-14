@@ -49,10 +49,14 @@ class App extends React.Component {
 }
 
 export default connect(state => {
-    return {
-        isFetching: state.newcomer.isFetching,
-        studentId: state.newcomer.student && state.newcomer.student.id,
-        studentName: state.newcomer.student && state.newcomer.student.name,
-        url: state.newcomer.oAuthUrl
-    };
+    // let pr = {
+    //     isFetching: state.newcomer.scene1.isFetching ? state.newcomer.scene1.isFetching : false,
+    //     studentId: state.newcomer.scene1.student.id,
+    //     studentName: state.newcomer.scene1.student.name,
+    //     url: state.newcomer.oAuthUrl
+    // };
+    // console.log('Prop is: ', pr);
+    // return pr;
+
+    return {isFetching: false};
 })(App);

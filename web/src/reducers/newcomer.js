@@ -1,10 +1,14 @@
 import * as rootAction from '../actions';
 
+const pj = (obj) => {
+    return JSON.stringify(obj);
+};
+
 // 階層的な state を構築するヘルパー
 // @param state 状態
 // @param path 評価値をセットする位置。例：path = ['layer1', 'layer2'] ならば、state.layer1.layer2 に値が入る。
 // @param method 評価器
-const assignChildState = (state, action, path, method) => {
+const assignStateForChild = (state, action, path, method) => {
     // 指定した path の state を取得
     const _getStateWithPath = (_state, _path) => {
         let current = _state;
@@ -19,6 +23,7 @@ const assignChildState = (state, action, path, method) => {
     };
 
     const result = method(_getStateWithPath(state, path), action);
+    console.log('method result is :', result);
     return assignObjectWithPath(state, result, path);
 };
 
@@ -26,6 +31,11 @@ const assignChildState = (state, action, path, method) => {
 // @param value セットしたい値（Can accept Object, Array and Nested object.）
 // @param path value をセットする位置。例：path = ['layer1', 'layer2'] ならば、state.layer1.layer2 に value が入る。
 const assignObjectWithPath = (state, value, path) => {
+    let clonedState = {...state};
+
+    console.log('state:', pj(state));
+    console.log('state:', state);
+
     const recursion = (current, index = 0) => {
         const key = path[index];
         const isLast = (path.length <= index + 1);
@@ -42,12 +52,14 @@ const assignObjectWithPath = (state, value, path) => {
         }
     };
 
-    recursion(state);
-    return state;
+    console.log('clonedState: ', clonedState);
+    recursion(clonedState);
+    console.log('clonedState after: ', clonedState);
+    return clonedState;
 };
 
 
-const student = (state = {}, action) => {
+const scene1Student = (state = {}, action) => {
     // noinspection JSRedundantSwitchStatement
     switch (action.type) {
         case rootAction.action.RECEIVE_STUDENT:
@@ -81,23 +93,11 @@ const step2 = (state = {invalid: true}, action) => {
     }
 };
 
-const newcomer = (state = {
-    isFetching: false,
-    didInvalidate: false
-}, action) => {
-    // assignChildState(state, action, ['scene1'], scene1);
-    // assignChildState(state, action, ['scene1', 'student'], scene1Student);
-    // assignChildState(state, action, ['scene2'], scene2);
-
+const scene1 = (state = {}, action) => {
     switch (action.type) {
-        case rootAction.action.REQUEST_AUTHENTICATION:
-        case rootAction.action.RECEIVE_AUTHENTICATION:
-            return {
-                ...state,
-                step2: step2(state[step2], action)
-            };
-
         case rootAction.action.REQUEST_STUDENT:
+            console.log('rootAction.action.REQUEST_STUDENT');
+            console.log(state);
             return {
                 ...state,
                 isFetching: true
@@ -105,7 +105,7 @@ const newcomer = (state = {
         case rootAction.action.RECEIVE_STUDENT:
             return {
                 ...state,
-                student: student(state[student], action)
+                isFetching: true
             };
         case rootAction.action.RECEIVE_O_AUTH_URL:
             return {
@@ -113,6 +113,26 @@ const newcomer = (state = {
                 isFetching: false,
                 oAuthUrl: action.data.url
             };
+        default:
+            return state;
+    }
+};
+
+const newcomer = (state = {}, action) => {
+    state = assignStateForChild(state, action, ['scene1'], scene1);
+    //assignStateForChild(state, action, ['scene1', 'student'], scene1Student);
+    // assignChildState(state, action, ['scene1', 'student'], scene1Student);
+    // assignChildState(state, action, ['scene2'], scene2);
+
+    console.log(`The newcomer is: ${pj(state)}, and the action is: ${pj(action)}`);
+
+    switch (action.type) {
+        // case rootAction.action.REQUEST_AUTHENTICATION:
+        // case rootAction.action.RECEIVE_AUTHENTICATION:
+        //     return {
+        //         ...state,
+        //         step2: step2(state[step2], action)
+        //     };
         default:
             return state;
     }

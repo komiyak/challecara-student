@@ -50,10 +50,7 @@ const shouldFetchStudent = (state) => {
     if (!newcomer.student) {
         return true;
     }
-    if (newcomer.isFetching) {
-        return false;
-    }
-    return newcomer.didInvalidate;
+    return !newcomer.isFetching;
 };
 
 // noinspection JSUnusedGlobalSymbols
