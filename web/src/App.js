@@ -49,13 +49,13 @@ class App extends React.Component {
 }
 
 export default connect(state => {
-  const scene1 = state.newcomer.scene1 || {}
-  const student = scene1.student || {}
+  const screen1 = state.newcomer.screen1 || {}
+  const student = screen1.student || {}
   const studentField = student.fields || {}
-  const oAuthUrl = scene1.oAuthUrl || {}
+  const oAuthUrl = screen1.oAuthUrl || {}
 
   return {
-    isFetching: scene1.isFetching ? scene1.isFetching : false,
+    isFetching: screen1.isFetching ? screen1.isFetching : false,
     studentId: student.id ? student.id : null,
     studentName: studentField.fullName ? studentField.fullName : null,
     url: oAuthUrl.url ? oAuthUrl.url : null

@@ -1,24 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import React from 'react'
+import { connect } from 'react-redux'
 
-import {authenticate} from "../actions";
+import * as newcomer from '../redux/modules/newcomer'
 
 class NewcomerCallback extends React.Component {
-    componentDidMount() {
-        console.log('NewcomerCallback#componentDidMount');
-        this.props.dispatch(authenticate(this.props.location));
-    }
+  componentDidMount() {
+    this.props.dispatch(newcomer.authenticate(this.props.location))
+  }
 
-    render() {
-        return (
-            <div>
-                <p>Backed to the app from LINE. Under construction.</p>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <p>Backed to the app from LINE. Under construction.</p>
+      </div>
+    )
+  }
 }
 
 export default connect(state => {
-    return {};
-})(NewcomerCallback);
+  return {}
+})(NewcomerCallback)
