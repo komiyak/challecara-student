@@ -1,18 +1,4 @@
-import * as firebase from 'firebase/app'
-import 'firebase/functions'
-
 import { createSlice } from 'redux-starter-kit'
-
-// NOTE 将来的には、オプションとして localhost の function を見れるようにしたい
-firebase.initializeApp({
-  apiKey: 'AIzaSyCuuDnt1RHqFrg9_9uT-b7IGwyXZNeVL5w',
-  authDomain: 'challecara-student.firebaseapp.com',
-  databaseURL: 'https://challecara-student.firebaseio.com',
-  projectId: 'challecara-student',
-  storageBucket: 'challecara-student.appspot.com',
-  messagingSenderId: '202630578146',
-  appId: '1:202630578146:web:a970db057cb8df40'
-})
 
 const newcomer = createSlice({
   slice: 'Newcomer',
@@ -44,7 +30,7 @@ export const { actions } = newcomer
  * @param match
  * @returns {Function}
  */
-export const fetchStudent = match => (dispatch, getState) => {
+export const fetchStudent = match => (dispatch, getState, { firebase }) => {
   const studentId = match.params.student_id
 
   dispatch(actions.requestStudent({ studentId: studentId }))
