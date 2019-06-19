@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import '../sass/Newcomer.scss'
 
-import * as newcomer from '../redux/modules/newcomer'
+import { newcomerController } from '../redux/modules/newcomerController'
 
 class Newcomer extends React.Component {
   static propTypes = {
@@ -14,7 +14,7 @@ class Newcomer extends React.Component {
   };
 
   componentDidMount() {
-    this.props.dispatch(newcomer.fetchStudent(this.props.match))
+    this.props.dispatch(newcomerController.fetchStudent(this.props.match))
   }
 
   render() {

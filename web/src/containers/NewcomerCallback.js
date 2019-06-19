@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import * as newcomer from '../redux/modules/newcomer'
+import { newcomerController } from '../redux/modules/newcomerController'
 
 class NewcomerCallback extends React.Component {
   componentDidMount() {
-    this.props.dispatch(newcomer.authenticate(this.props.location))
+    this.props.dispatch(newcomerController.authenticate(this.props.location))
   }
 
   render() {
