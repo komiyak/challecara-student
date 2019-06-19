@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 
-import App from './App'
+import Newcomer from './containers/Newcomer'
 import NewcomerCallback from './containers/NewcomerCallback'
 import NoMatch from './components/NoMatch'
 
@@ -17,7 +17,7 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route exact path="/newcomer/o-auth-callback/" component={NewcomerCallback}/>
-        <Route path="/newcomer/:student_id/" component={App}/>
+        <Route path="/newcomer/:student_id/" component={Newcomer}/>
         <Route component={NoMatch}/>
       </Switch>
     </Router>

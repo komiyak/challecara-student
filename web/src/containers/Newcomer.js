@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import 'App.scss'
+import '../sass/Newcomer.scss'
 
-import * as newcomer from './redux/modules/newcomer'
+import * as newcomer from '../redux/modules/newcomer'
 
-class App extends React.Component {
+class Newcomer extends React.Component {
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
     studentId: PropTypes.string,
@@ -60,4 +60,4 @@ export default connect(state => {
     studentName: studentField.fullName ? studentField.fullName : null,
     url: oAuthUrl.url ? oAuthUrl.url : null
   }
-})(App)
+})(Newcomer)
