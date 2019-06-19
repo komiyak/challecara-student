@@ -1,9 +1,9 @@
 import { createSlice } from 'redux-starter-kit'
 
 /**
- * newcomer .. /newcomer 画面
- * newcomer.screen1 .. QRコード読み取り直後の画面で使用する
- * newcomer.screen2 .. LINE Login コールバック後の画面で使用する
+ * /newcomer 画面に関連する state
+ * newcomer.screen1 .. QRコード読み取り直後の画面でのみ利用するデータ
+ * newcomer.screen2 .. LINE Login コールバック後の画面でのみ利用するデータ
  */
 const newcomer = createSlice({
   slice: 'Newcomer',

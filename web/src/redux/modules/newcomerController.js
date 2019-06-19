@@ -1,4 +1,5 @@
 import * as newcomer from './newcomer'
+import * as authentication from './authentication'
 
 export const newcomerController = {
   /**
@@ -45,6 +46,7 @@ export const newcomerController = {
         redirectUrl: process.env.REACT_APP_O_AUTH_CALLBACK_URL
       }).then(result => {
         dispatch(newcomer.actions.receiveAuthentication(result.data))
+        dispatch(authentication.actions.updateToken(result.data.token))
       })
     }
   }
