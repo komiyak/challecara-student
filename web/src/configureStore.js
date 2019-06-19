@@ -8,6 +8,7 @@ import reducer from './reducer'
 
 import * as firebase from 'firebase/app'
 import 'firebase/functions'
+import 'firebase/auth'
 
 // NOTE 将来的には、オプションとして localhost の function を見れるようにしたい
 firebase.initializeApp({

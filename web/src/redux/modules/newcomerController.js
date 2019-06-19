@@ -45,8 +45,17 @@ export const newcomerController = {
         state,
         redirectUrl: process.env.REACT_APP_O_AUTH_CALLBACK_URL
       }).then(result => {
+        const token = result.data.token
         dispatch(newcomer.actions.receiveAuthentication(result.data))
-        dispatch(authentication.actions.updateToken(result.data.token))
+        dispatch(authentication.actions.updateToken(token))
+
+        return firebase.auth().signInWithCustomToken(token).catch(error => {
+          console.error('Error code: ', error.code)
+          console.error('Error message: ', error.message)
+        })
+      }).then(result => {
+        console.log('Success authentication')
+        console.log(result)
       })
     }
   }
