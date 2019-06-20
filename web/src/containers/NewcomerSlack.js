@@ -32,7 +32,7 @@ class NewcomerSlack extends React.Component {
 
         <div className="content">
           <p>
-            <a href='#' target="_blank">
+            <a href='/dummy' target="_blank">
               Slack に参加（別窓）
             </a>
           </p>
