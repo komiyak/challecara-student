@@ -5,6 +5,8 @@ import { Redirect } from 'react-router-dom'
 
 import { newcomerController } from '../redux/modules/newcomerController'
 
+import spinning from '../images/spinning-circles.svg'
+
 class NewcomerCallback extends React.Component {
   static propTypes = {
     redirect: PropTypes.bool.isRequired
@@ -20,7 +22,7 @@ class NewcomerCallback extends React.Component {
     } else {
       return (
         <div>
-          <p>Backed to the app from LINE. Under construction.</p>
+          <img src={spinning} alt='Spinning'/>
         </div>
       )
     }
