@@ -8,6 +8,7 @@ import Newcomer from './containers/Newcomer'
 import NewcomerCallback from './containers/NewcomerCallback'
 import NewcomerOAuthSuccess from './containers/NewcomerOAuthSuccess'
 import NewcomerSlack from './containers/NewcomerSlack'
+import NewcomerCompletion from './containers/NewcomerCompletion'
 import NoMatch from './components/NoMatch'
 
 import configureStore from './configureStore'
@@ -22,6 +23,7 @@ ReactDOM.render(
         <Route exact path='/newcomer/slack/' component={NewcomerSlack}/>
         <Route exact path="/newcomer/o-auth-callback/" component={NewcomerCallback}/>
         <Route exact path="/newcomer/o-auth-success/" component={NewcomerOAuthSuccess}/>
+        <Route exact path="/newcomer/completion/" component={NewcomerCompletion}/>
         <Route path="/newcomer/:student_id/" component={Newcomer}/>
         <Route component={NoMatch}/>
       </Switch>
