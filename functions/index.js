@@ -245,6 +245,14 @@ exports.getStudent = functions.https.onCall(async (data) => {
     }
 });
 
+exports.getSlackUrl = functions.https.onCall((data, context) => {
+    if (!context.auth) {
+        throw new functions.https.HttpsError('unauthenticated', 'Lack a valid authentication.');
+    } else {
+        return {code: 'ok', url: functions.config().content.slack_url}
+    }
+})
+
 exports.addMessage = functions.https.onCall((data, context) => {
     if (context.auth) {
         const uid = context.auth.uid;
