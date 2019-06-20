@@ -57,10 +57,7 @@ export const newcomerController = {
         console.log('Success authentication')
         console.log(result)
 
-        return firebase.functions().httpsCallable('addMessage')({})
-      }).then(result => {
-        console.log('Success calling addMessage')
-        console.log(result)
+        dispatch(newcomer.actions.finishSignIn())
       })
     }
   }

@@ -35,6 +35,11 @@ const newcomer = createSlice({
 
       state.screen2.isFetching = true
       state.screen2.authentication = action.payload
+    },
+    finishSignIn(state, action) {
+      state.screen2 = state.screen2 || {}
+
+      state.screen2.finished = true
     }
   }
 })

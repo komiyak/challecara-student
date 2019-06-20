@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker'
 
 import Newcomer from './containers/Newcomer'
 import NewcomerCallback from './containers/NewcomerCallback'
+import NewcomerOAuthSuccess from './containers/NewcomerOAuthSuccess'
 import NoMatch from './components/NoMatch'
 
 import configureStore from './configureStore'
@@ -17,6 +18,7 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route exact path="/newcomer/o-auth-callback/" component={NewcomerCallback}/>
+        <Route exact path="/newcomer/o-auth-success/" component={NewcomerOAuthSuccess}/>
         <Route path="/newcomer/:student_id/" component={Newcomer}/>
         <Route component={NoMatch}/>
       </Switch>
