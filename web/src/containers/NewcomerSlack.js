@@ -1,10 +1,31 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
+import { newcomerController } from '../redux/modules/newcomerController'
 
 import { Link } from 'react-router-dom'
 
 class NewcomerSlack extends React.Component {
+  static propTypes = {
+    isFetching: PropTypes.bool.isRequired,
+    slackUrl: PropTypes.string
+  };
+
+  componentDidMount() {
+    this.props.dispatch(newcomerController.fetchSlackUrlIfNeeded())
+  }
+
   render() {
+    let slackLink
+    if (this.props.isFetching) {
+      slackLink = <p><span><i className="fas fa-spinner fa-pulse"/> Loading...</span></p>
+    } else if (this.props.slackUrl) {
+      slackLink = <a href={this.props.slackUrl} target="_blank">Slack に参加（別窓）</a>
+    } else {
+      slackLink = <p style={{color: 'red'}}>招待リンクの取得に問題が発生しました</p>
+    }
+
     return (
       <div className="App container">
         <h1 className="title">Slack(スラック) に参加してください</h1>
@@ -31,11 +52,7 @@ class NewcomerSlack extends React.Component {
         <h2 className="title is-2">参加方法</h2>
 
         <div className="content">
-          <p>
-            <a href='/dummy' target="_blank">
-              Slack に参加（別窓）
-            </a>
-          </p>
+          {slackLink}
 
           <p>
             上記のボタンをクリックし、案内に従って登録を完了してください。
@@ -50,5 +67,11 @@ class NewcomerSlack extends React.Component {
 }
 
 export default connect(state => {
-  return {}
+  const screenSlack = state.newcomer.screenSlack || {}
+  const result = screenSlack.result || {}
+
+  return {
+    isFetching: screenSlack.isFetching ? screenSlack.isFetching : false,
+    slackUrl: result.url ? result.url : null
+  }
 })(NewcomerSlack)

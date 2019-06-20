@@ -60,5 +60,25 @@ export const newcomerController = {
         dispatch(newcomer.actions.finishSignIn())
       })
     }
+  },
+
+  /**
+   * [Async] Slack の招待リンクを取得する
+   * @returns {Function}
+   */
+  fetchSlackUrlIfNeeded: () => (dispatch, getState, { firebase }) => {
+    const screenSlack = getState().screenSlack || {}
+    if (!screenSlack.result) {
+      dispatch(newcomer.actions.requestSlackUrl())
+
+      firebase.functions().httpsCallable('getSlackUrl')({})
+        .then(result => {
+          dispatch(newcomer.actions.receiveSlackUrl(result.data))
+        })
+        .catch(err => {
+          dispatch(newcomer.actions.receiveSlackUrl({ error: true }))
+          console.error(err)
+        })
+    }
   }
 }

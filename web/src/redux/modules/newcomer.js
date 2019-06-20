@@ -4,6 +4,7 @@ import { createSlice } from 'redux-starter-kit'
  * /newcomer 画面に関連する state
  * newcomer.screen1 .. QRコード読み取り直後の画面でのみ利用するデータ
  * newcomer.screen2 .. LINE Login コールバック後の画面でのみ利用するデータ
+ * newcomer.screenSlack .. Slack 招待画面で利用するデータ
  */
 const newcomer = createSlice({
   slice: 'Newcomer',
@@ -40,6 +41,23 @@ const newcomer = createSlice({
       state.screen2 = state.screen2 || {}
 
       state.screen2.finished = true
+    },
+    /**
+     * Slack 招待リンクの取得を開始した
+     */
+    requestSlackUrl(state) {
+      state.screenSlack = state.screenSlack || {}
+
+      state.screenSlack.isFetching = true
+    },
+    /**
+     * Slack 招待リンクの取得が完了した
+     */
+    receiveSlackUrl(state, action) {
+      state.screenSlack = state.screenSlack || {}
+
+      state.screenSlack.isFetching = false
+      state.screenSlack.result = action.payload
     }
   }
 })
