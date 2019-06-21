@@ -23,7 +23,7 @@ class NewcomerSlack extends React.Component {
     } else if (this.props.slackUrl) {
       slackLink = <a href={this.props.slackUrl} target="_blank">Slack に参加（別窓）</a>
     } else {
-      slackLink = <p style={{color: 'red'}}>招待リンクの取得に問題が発生しました</p>
+      slackLink = <p style={{ color: 'red' }}>招待リンクの取得に問題が発生しました</p>
     }
 
     return (

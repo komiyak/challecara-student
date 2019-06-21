@@ -17,6 +17,18 @@ $buttonLineLoginHeight: 44px;
   background-image: url(../images/1x/btn_line_login_press.png);
 }
 
+
+$logoWidth: 150px;
+$logoHeight: 32px;
+
+.logo {
+  display: block;
+  width: $logoWidth;
+  height: $logoHeight;
+  background-image: url(../images/1x/challecara_logo_white.png);
+  text-indent: -99999px;
+}
+
 /* A setting for the high-res display. See: https://stackoverflow.com/a/16154726/1872674 */
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
   .buttonLineLogin {
@@ -30,6 +42,11 @@ $buttonLineLoginHeight: 44px;
 
   .buttonLineLogin:active {
     background-image: url(../images/2x/btn_line_login_press.png);
+  }
+
+  .logo {
+    background-image: url(../images/2x/challecara_logo_white.png);
+    background-size: $logoWidth $logoHeight;
   }
 }
 

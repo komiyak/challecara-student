@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import '../sass/Newcomer.scss'
+import './Newcomer.scss'
 
 import { newcomerController } from '../redux/modules/newcomerController'
 
@@ -41,7 +41,7 @@ class Newcomer extends React.Component {
 
         <div className="component-body">
           <div className='container App'>
-            <h1 className="title">Challecara!</h1>
+            <h1 className="logo">チャレキャラ</h1>
 
             <div className="content">
               <p>To a maker</p>
