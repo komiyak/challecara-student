@@ -22,6 +22,7 @@ module.exports = {
   'parser': 'babel-eslint',
   'rules': {
     'no-unused-vars': 'off',
+    'no-return-assign': 'off',
     'space-before-function-paren': ['error', 'never']
   }
 }
