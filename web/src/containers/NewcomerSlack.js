@@ -21,7 +21,7 @@ class NewcomerSlack extends React.Component {
     if (this.props.isFetching) {
       slackLink = <p><span><i className="fas fa-spinner fa-pulse"/> Loading...</span></p>
     } else if (this.props.slackUrl) {
-      slackLink = <a href={this.props.slackUrl} target="_blank">Slack に参加（別窓）</a>
+      slackLink = <a href={this.props.slackUrl} target="_blank" rel='noopener noreferrer'>Slack に参加（別窓）</a>
     } else {
       slackLink = <p style={{ color: 'red' }}>招待リンクの取得に問題が発生しました</p>
     }
