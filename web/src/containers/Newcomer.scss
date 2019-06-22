@@ -1,3 +1,10 @@
+$primary: #00C300 !default;
+
+$btn-border-radius: 2rem !default;
+$input-btn-padding-y: .75rem !default;
+
+@import '~bootstrap/scss/bootstrap.scss';
+
 $buttonLineLoginWidth: 151px;
 $buttonLineLoginHeight: 44px;
 
@@ -67,12 +74,30 @@ $logoHeight: 32px;
 .component-root {
   position: relative;
 }
+
 .component-body {
   position: absolute;
   top: 0;
   left: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .App {
   color: white;
+}
+
+.cover-heading {
+  font-family: Circular, Helvetica, Arial, sans-serif;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+  line-height: 1.15;
+  font-size: 54px;
+  color: white;
+}
+
+.white-font-base {
+  background-color: rgba(0, 0, 0, 0.15);
+  padding-left: 4px;
+  padding-right: 4px;
 }

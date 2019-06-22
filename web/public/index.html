@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='ja'>
 <head>
     <meta charset="utf-8"/>
     <!--suppress HtmlUnknownTarget -->
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000"/>
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -23,21 +23,25 @@
     -->
     <title>React App</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
-          integrity="sha256-vK3UTo/8wHbaUn+dTQD0X6dzidqc5l7gczvH+Bnowwk=" crossorigin="anonymous"/>
+    <!-- jQuery 3.x -->
     <!--suppress JSUnresolvedLibraryURL -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/js/all.min.js"
-            integrity="sha256-JgGtkjMEDh4dZj7UtWqSbUcftdwTFLNR3ih7FH80RHs=" crossorigin="anonymous"></script>
-
-    <!--suppress JSUnresolvedLibraryURL -->
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
-            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
+
+    <!-- Vegas.js is a slide show plugin depended on jQuery. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vegas/2.4.4/vegas.min.css"
           integrity="sha256-S87naTDX8zIj0a0+TFx/jaxZsrM2wqwj9xEFsqziS3s=" crossorigin="anonymous"/>
     <!--suppress JSUnresolvedLibraryURL -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vegas/2.4.4/vegas.js"
             integrity="sha256-t+MUEqsYNinpWox/DrYAziFRuTYvZGa5r+OKBw9aO+A=" crossorigin="anonymous"></script>
+
+    <style>
+        .cover-dark-mode {
+            height: 100%;
+            background-color: black;
+        }
+    </style>
 </head>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>

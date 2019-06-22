@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import './Newcomer.scss'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+
 import { newcomerController } from '../redux/modules/newcomerController'
 
 const $ = window.jQuery
@@ -16,6 +19,8 @@ class Newcomer extends React.Component {
   };
 
   componentDidMount() {
+    document.body.classList.add('cover-dark-mode')
+
     this.props.dispatch(newcomerController.fetchStudent(this.props.match))
 
     this.$el = $(this.el)
@@ -31,37 +36,49 @@ class Newcomer extends React.Component {
   }
 
   componentWillUnmount() {
+    document.body.classList.remove('cover-dark-mode')
+
     this.$el.vegas('destroy')
   }
 
   render() {
+    let studentName
+    if (this.props.isFetching) {
+      studentName = <span className='white-font-base'><FontAwesomeIcon icon={faSpinner} pulse/> Loading...</span>
+    } else {
+      studentName = <span className='white-font-base'>ようこそ、{this.props.studentName}</span>
+    }
+
     return (
       <div className='component-root'>
         <div ref={el => this.el = el} className='full-height-background'/>
 
         <div className="component-body">
-          <div className='container App'>
-            <h1 className="logo">チャレキャラ</h1>
-
-            <div className="content">
-              <p>To a maker</p>
-              <p>
-                {this.props.isFetching
-                  ? <span><i className="fas fa-spinner fa-pulse"/> Loading...</span> : this.props.studentName
-                }
-              </p>
-            </div>
-
-            {!this.props.isFetching &&
-            <div>
-              <div className="content">
-                セットアップを開始しますので、LINE アカウントでログインをお願いします。
+          <div className='cover-container d-flex w-100 h-100 p-3 mx-auto flex-column App'>
+            <header className='mb-auto container-fluid'>
+              <div className='row justify-content-center'>
+                <h1 className="logo text-center m-5">チャレキャラ</h1>
               </div>
 
-              {/* eslint-disable-next-line */}
-              <p><a className="buttonLineLogin" href={this.props.url ? this.props.url : ""}>LINE Login</a></p>
-            </div>
-            }
+              <div className='row justify-content-center'>
+                <h2 className="cover-heading">
+                  To a maker
+                </h2>
+              </div>
+            </header>
+
+            <main className='container'>
+              <div className="row justify-content-center mt-5">
+                {studentName}
+              </div>
+
+              <div className="row justify-content-center mt-1">
+                <a className={'btn btn-primary btn-block ml-4 mr-4' + (this.props.isFetching ? ' disabled' : '')} role="button" aria-disabled="true" href={this.props.url ? this.props.url : ''}>LINEでログイン</a>
+              </div>
+            </main>
+
+            <footer className='mt-auto p-5'>
+            </footer>
           </div>
         </div>
       </div>
