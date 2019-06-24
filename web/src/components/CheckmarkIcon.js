@@ -1,5 +1,4 @@
 import React from 'react'
-import './CheckmarkIcon.scss'
 
 // Based component: https://codepen.io/haniotis/pen/KwvYLO
 const CheckmarkIcon = () => (

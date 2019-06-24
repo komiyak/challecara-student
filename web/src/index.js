@@ -11,6 +11,8 @@ import NewcomerSlack from './containers/NewcomerSlack'
 import NewcomerCompletion from './containers/NewcomerCompletion'
 import NoMatch from './components/NoMatch'
 
+import 'scss/index.scss'
+
 import configureStore from './configureStore'
 
 const store = configureStore()
