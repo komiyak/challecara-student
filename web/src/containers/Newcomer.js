@@ -72,7 +72,7 @@ class Newcomer extends React.Component {
               </div>
 
               <div className="row justify-content-center mt-1">
-                <a className={'btn btn-primary btn-block ml-4 mr-4' + (this.props.isFetching ? ' disabled' : '')} role="button" aria-disabled="true" href={this.props.url ? this.props.url : ''}>LINEでログイン</a>
+                <a className={'btn btn-line-style btn-block ml-4 mr-4' + (this.props.isFetching ? ' disabled' : '')} role="button" aria-disabled="true" href={this.props.url ? this.props.url : ''}>LINEでログイン</a>
               </div>
             </main>
 

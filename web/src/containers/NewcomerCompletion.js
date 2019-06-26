@@ -3,21 +3,30 @@ import { connect } from 'react-redux'
 
 import CheckmarkIcon from '../components/CheckmarkIcon'
 
+import CompletionHeader from '../images/newcomer-completion-header.jpg'
+
 class NewcomerCompletion extends React.Component {
   render() {
     return (
-      <div className="container">
-        <div className="content">
-          <p>
-            おめでとうございます！
-            セットアップが完了しました！
-          </p>
+      <div>
+        <img src={CompletionHeader} className='img-fluid w-100' alt='Header'/>
 
-          <ul>
-            <li><CheckmarkIcon/> ユーザー登録した。</li>
-            <li><CheckmarkIcon/> 『チャレキャラBot』 を友だちに追加した。</li>
-            <li><CheckmarkIcon/> Slack に参加した。</li>
-          </ul>
+        <div className="container mt-3">
+          <div className='row'>
+            <p>セットアップが完了しました！</p>
+          </div>
+
+          <div className='row'>
+            <ul className='list-unstyled'>
+              <li className='mb-2'><CheckmarkIcon/> ユーザー登録した。</li>
+              <li className='mb-2'><CheckmarkIcon/> 『チャレキャラBot』 を友だちに追加した。</li>
+              <li><CheckmarkIcon/> Slack に参加した。</li>
+            </ul>
+          </div>
+
+          <div className='row'>
+            <p>これから半年間よろしくお願いします！</p>
+          </div>
         </div>
       </div>
     )

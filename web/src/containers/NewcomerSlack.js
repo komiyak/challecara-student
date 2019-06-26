@@ -6,6 +6,11 @@ import { newcomerController } from '../redux/modules/newcomerController'
 
 import { Link } from 'react-router-dom'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExternalLinkAlt, faSpinner } from '@fortawesome/free-solid-svg-icons'
+
+import SlackWithMentors from '../images/slack-with-mentors.jpg'
+
 class NewcomerSlack extends React.Component {
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
@@ -17,49 +22,78 @@ class NewcomerSlack extends React.Component {
   }
 
   render() {
-    let slackLink
+    let slackButton
+
     if (this.props.isFetching) {
-      slackLink = <p><span><i className="fas fa-spinner fa-pulse"/> Loading...</span></p>
+      slackButton =
+        <a className='btn btn-slack-style btn-block disabled'
+          role="button" aria-disabled="true"
+          href='#'>
+
+          <FontAwesomeIcon icon={faSpinner} pulse/> Loading...
+        </a>
     } else if (this.props.slackUrl) {
-      slackLink = <a href={this.props.slackUrl} target="_blank" rel='noopener noreferrer'>Slack に参加（別窓）</a>
+      slackButton =
+        <a className='btn btn-slack-style btn-block'
+          role="button" aria-disabled="true"
+          href={this.props.slackUrl}
+          target="_blank" rel='noopener noreferrer'>
+
+          Slack に参加 <FontAwesomeIcon icon={faExternalLinkAlt}/>
+        </a>
     } else {
-      slackLink = <p style={{ color: 'red' }}>招待リンクの取得に問題が発生しました</p>
+      slackButton =
+        <a className='btn btn-slack-style btn-block disabled'
+          role="button" aria-disabled="true"
+          href='#'>
+
+          リンク取得に失敗しました
+        </a>
     }
 
     return (
-      <div className="App container">
-        <h1 className="title">Slack(スラック) に参加してください</h1>
-
-        <h2 className="title is-2">Slack って？</h2>
-
-        <div className="content">
+      <div className="container">
+        <div className='row'>
+          <h2>Slack に参加</h2>
+        </div>
+        <div className='row'>
           <p>
-            グループでの会話に便利なチャットツールです。
-            IT業界で一般的に利用されており、
-            チャレキャラのすべての学生とメンターも Slack に参加しています。
+            Slack（スラック）は、 グループでの会話に便利なチャットツールです。
+          </p>
+
+          <p>
+            IT業界で広く利用されており、チャレキャラでもすべての学生とメンターが Slack に参加しています。
           </p>
         </div>
 
-        <h2 className="title is-2">Slack で何をするの？</h2>
+        <div className='row justify-content-center'>
+          <img src={SlackWithMentors} className='img-fluid' alt='A picture of Slack with mentors.' style={{maxWidth: '220px'}}/>
+        </div>
 
-        <div className="content">
+        <div className='row'>
+          <h2>何に使うの？</h2>
+
+        </div>
+        <div className='row'>
           <p>
             学生同士、またはメンターとのコミュニケーションに活用してください。
-            チャレキャラ開催期間中の連絡は、Slack を通して行われます。
+            チャレキャラ開催期間中の連絡も、Slack で行われます。
           </p>
         </div>
 
-        <h2 className="title is-2">参加方法</h2>
+        <div className='row'>
+          {slackButton}
+        </div>
 
-        <div className="content">
-          {slackLink}
-
+        <div className='row mt-3'>
           <p>
-            上記のボタンをクリックし、案内に従って登録を完了してください。
+            Slack に参加できたら、次に移動してください。
           </p>
         </div>
 
-        <Link to="/newcomer/completion/" className='button'>次へ</Link>
+        <div className="row">
+          <Link to="/newcomer/completion/" className='btn btn-outline-dark btn-block'>次へ</Link>
+        </div>
 
       </div>
     )

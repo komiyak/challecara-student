@@ -1,6 +1,6 @@
-$primary: #00C300 !default;
-$btn-border-radius: 2rem !default;
-$input-btn-padding-y: .75rem !default;
+//$primary: #00C300 !default;
+//$btn-border-radius: 2rem !default;
+//$input-btn-padding-y: .75rem !default;
 
 @import '~bootstrap/scss/bootstrap.scss';
 
@@ -99,6 +99,14 @@ $logoHeight: 32px;
   background-color: rgba(0, 0, 0, 0.15);
   padding-left: 4px;
   padding-right: 4px;
+}
+
+.btn-line-style {
+  @include button-variant(#00C300, #00C300);
+}
+
+.btn-slack-style {
+  @include button-variant(#611F69, #611F69);
 }
 
 @import "checkmark-icon";
