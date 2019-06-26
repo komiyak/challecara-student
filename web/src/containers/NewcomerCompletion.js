@@ -11,21 +11,23 @@ class NewcomerCompletion extends React.Component {
       <div>
         <img src={CompletionHeader} className='img-fluid w-100' alt='Header'/>
 
-        <div className="container mt-3">
-          <div className='row'>
-            <p>セットアップが完了しました！</p>
-          </div>
+        <div className="newcomer-content">
+          <div className="newcomer-content container">
+            <div className='row'>
+              <p>セットアップが完了しました！</p>
+            </div>
 
-          <div className='row'>
-            <ul className='list-unstyled'>
-              <li className='mb-2'><CheckmarkIcon/> ユーザー登録した。</li>
-              <li className='mb-2'><CheckmarkIcon/> 『チャレキャラBot』 を友だちに追加した。</li>
-              <li><CheckmarkIcon/> Slack に参加した。</li>
-            </ul>
-          </div>
+            <div className='row'>
+              <ul className='list-unstyled ml-1'>
+                <li className='mb-1'><CheckmarkIcon/> ユーザー登録した。</li>
+                <li className='mb-1'><CheckmarkIcon/> 『チャレキャラBot』 を友だちに追加した。</li>
+                <li><CheckmarkIcon/> Slack に参加した。</li>
+              </ul>
+            </div>
 
-          <div className='row'>
-            <p>これから半年間よろしくお願いします！</p>
+            <div className='row'>
+              <p>これから半年間よろしくお願いします！</p>
+            </div>
           </div>
         </div>
       </div>

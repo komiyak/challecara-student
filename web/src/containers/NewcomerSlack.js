@@ -46,7 +46,7 @@ class NewcomerSlack extends React.Component {
     }
 
     return (
-      <div>
+      <div className='newcomer-content'>
         <div className="container">
           <div className='row'>
             <h2>Slack に参加</h2>
@@ -82,7 +82,7 @@ class NewcomerSlack extends React.Component {
             {slackButton}
           </div>
 
-          <div className='row mt-3'>
+          <div className='row mt-4'>
             <p>
               Slack に参加できたら、次に移動してください。
             </p>

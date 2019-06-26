@@ -6,7 +6,7 @@ import ScreenShotLine from '../images/screen-shot-line.jpg'
 class NewcomerOAuthSuccess extends React.Component {
   render() {
     return (
-      <div>
+      <div className='newcomer-content'>
         <div className="container">
           <div className='row'>
             <h2>友だち追加</h2>
@@ -19,7 +19,7 @@ class NewcomerOAuthSuccess extends React.Component {
 
         <img src={ScreenShotLine} className='img-fluid' alt='Screen shot'/>
 
-        <div className="container">
+        <div className="container mt-3">
           <div className='row'>
             <p>
               『チャレキャラBot』はこちら。

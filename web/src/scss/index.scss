@@ -1,28 +1,11 @@
-//$primary: #00C300 !default;
-//$btn-border-radius: 2rem !default;
-//$input-btn-padding-y: .75rem !default;
+// Customizing the Bootstrap.
+$spacer: 1.5rem;
+$line-height-base: 1.8;
+
+$headings-font-weight: 600;
+$h2-font-size: 1rem * 1.3;
 
 @import '~bootstrap/scss/bootstrap.scss';
-
-$buttonLineLoginWidth: 151px;
-$buttonLineLoginHeight: 44px;
-
-.buttonLineLogin {
-  display: block;
-  width: $buttonLineLoginWidth;
-  height: $buttonLineLoginHeight;
-  background-image: url(../images/1x/btn_line_login_base.png);
-  text-indent: -99999px;
-}
-
-.buttonLineLogin:hover {
-  background-image: url(../images/1x/btn_line_login_hover.png);
-}
-
-.buttonLineLogin:active {
-  background-image: url(../images/1x/btn_line_login_press.png);
-}
-
 
 $logoWidth: 150px;
 $logoHeight: 32px;
@@ -37,19 +20,6 @@ $logoHeight: 32px;
 
 /* A setting for the high-res display. See: https://stackoverflow.com/a/16154726/1872674 */
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-  .buttonLineLogin {
-    background-image: url(../images/2x/btn_line_login_base.png);
-    background-size: $buttonLineLoginWidth $buttonLineLoginHeight;
-  }
-
-  .buttonLineLogin:hover {
-    background-image: url(../images/2x/btn_line_login_hover.png);
-  }
-
-  .buttonLineLogin:active {
-    background-image: url(../images/2x/btn_line_login_press.png);
-  }
-
   .logo {
     background-image: url(../images/2x/challecara_logo_white.png);
     background-size: $logoWidth $logoHeight;
@@ -82,10 +52,6 @@ $logoHeight: 32px;
   width: 100%;
 }
 
-.App {
-  color: white;
-}
-
 .cover-heading {
   font-family: Circular, Helvetica, Arial, sans-serif;
   letter-spacing: -0.04em;
@@ -101,6 +67,8 @@ $logoHeight: 32px;
   padding-right: 4px;
 }
 
+// Bootstrap extended.
+
 .btn-line-style {
   @include button-variant(#00C300, #00C300);
 }
@@ -110,3 +78,4 @@ $logoHeight: 32px;
 }
 
 @import "checkmark-icon";
+@import "newcomer";
