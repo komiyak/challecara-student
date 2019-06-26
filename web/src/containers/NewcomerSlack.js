@@ -52,49 +52,54 @@ class NewcomerSlack extends React.Component {
     }
 
     return (
-      <div className="container">
-        <div className='row'>
-          <h2>Slack に参加</h2>
-        </div>
-        <div className='row'>
-          <p>
-            Slack（スラック）は、 グループでの会話に便利なチャットツールです。
-          </p>
+      <div>
+        <div className="container">
+          <div className='row'>
+            <h2>Slack に参加</h2>
+          </div>
+          <div className='row'>
+            <p>
+              Slack（スラック）は、 グループでの会話に便利なチャットツールです。
+            </p>
 
-          <p>
-            IT業界で広く利用されており、チャレキャラでもすべての学生とメンターが Slack に参加しています。
-          </p>
-        </div>
-
-        <div className='row justify-content-center'>
-          <img src={SlackWithMentors} className='img-fluid' alt='A picture of Slack with mentors.' style={{maxWidth: '220px'}}/>
+            <p>
+              IT業界で広く利用されており、チャレキャラでもすべての学生とメンターが Slack に参加しています。
+            </p>
+          </div>
         </div>
 
-        <div className='row'>
-          <h2>何に使うの？</h2>
-
-        </div>
-        <div className='row'>
-          <p>
-            学生同士、またはメンターとのコミュニケーションに活用してください。
-            チャレキャラ開催期間中の連絡も、Slack で行われます。
-          </p>
+        <div className="text-center my-3">
+          <img src={SlackWithMentors} className="rounded" alt='A picture of Slack with mentors.'
+            style={{ maxWidth: '220px' }}/>
         </div>
 
-        <div className='row'>
-          {slackButton}
-        </div>
+        <div className='container'>
+          <div className='row'>
+            <h2>何に使うの？</h2>
 
-        <div className='row mt-3'>
-          <p>
-            Slack に参加できたら、次に移動してください。
-          </p>
-        </div>
+          </div>
+          <div className='row'>
+            <p>
+              学生同士、またはメンターとのコミュニケーションに活用してください。
+              チャレキャラ開催期間中の連絡も、Slack で行われます。
+            </p>
+          </div>
 
-        <div className="row">
-          <Link to="/newcomer/completion/" className='btn btn-outline-dark btn-block'>次へ</Link>
-        </div>
+          <div className='row'>
+            {slackButton}
+          </div>
 
+          <div className='row mt-3'>
+            <p>
+              Slack に参加できたら、次に移動してください。
+            </p>
+          </div>
+
+          <div className="row">
+            <Link to="/newcomer/completion/" className='btn btn-outline-dark btn-block'>次へ</Link>
+          </div>
+
+        </div>
       </div>
     )
   }
