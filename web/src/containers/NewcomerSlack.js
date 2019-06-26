@@ -18,6 +18,7 @@ class NewcomerSlack extends React.Component {
   };
 
   componentDidMount() {
+    document.title = 'Slack に参加 - チャレキャラ'
     this.props.dispatch(newcomerController.fetchSlackUrlIfNeeded())
   }
 

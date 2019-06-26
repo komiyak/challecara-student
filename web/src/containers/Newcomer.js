@@ -56,7 +56,7 @@ class Newcomer extends React.Component {
           <div className='cover-container d-flex w-100 h-100 p-3 mx-auto flex-column App'>
             <header className='mb-auto container-fluid'>
               <div className='row justify-content-center'>
-                <h1 className="logo text-center m-5">チャレキャラ</h1>
+                <h1 className="logo my-5">チャレキャラ</h1>
               </div>
 
               <div className='row justify-content-center'>

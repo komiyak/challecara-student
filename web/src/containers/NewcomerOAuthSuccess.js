@@ -4,6 +4,10 @@ import { connect } from 'react-redux'
 import ScreenShotLine from '../images/screen-shot-line.jpg'
 
 class NewcomerOAuthSuccess extends React.Component {
+  componentDidMount() {
+    document.title = '友だち追加 - チャレキャラ'
+  }
+
   render() {
     return (
       <div className='newcomer-content'>

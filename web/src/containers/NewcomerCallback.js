@@ -13,6 +13,8 @@ class NewcomerCallback extends React.Component {
   }
 
   componentDidMount() {
+    document.title = '認証中 - チャレキャラ'
+
     document.documentElement.style.height = '100%'
     document.documentElement.style.background = '#888'
     document.body.style.height = '100%'

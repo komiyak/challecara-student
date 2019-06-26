@@ -6,6 +6,10 @@ import CheckmarkIcon from '../components/CheckmarkIcon'
 import CompletionHeader from '../images/newcomer-completion-header.jpg'
 
 class NewcomerCompletion extends React.Component {
+  componentDidMount() {
+    document.title = 'セットアップが完了しました - チャレキャラ'
+  }
+
   render() {
     return (
       <div>
