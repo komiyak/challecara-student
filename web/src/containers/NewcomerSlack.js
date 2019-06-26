@@ -26,12 +26,9 @@ class NewcomerSlack extends React.Component {
 
     if (this.props.isFetching) {
       slackButton =
-        <a className='btn btn-slack-style btn-block disabled'
-          role="button" aria-disabled="true"
-          href='#'>
-
+        <button type="button" className='btn btn-slack-style btn-block' disabled>
           <FontAwesomeIcon icon={faSpinner} pulse/> Loading...
-        </a>
+        </button>
     } else if (this.props.slackUrl) {
       slackButton =
         <a className='btn btn-slack-style btn-block'
@@ -43,12 +40,9 @@ class NewcomerSlack extends React.Component {
         </a>
     } else {
       slackButton =
-        <a className='btn btn-slack-style btn-block disabled'
-          role="button" aria-disabled="true"
-          href='#'>
-
+        <button type="button" className='btn btn-slack-style btn-block' disabled>
           リンク取得に失敗しました
-        </a>
+        </button>
     }
 
     return (
@@ -69,8 +63,7 @@ class NewcomerSlack extends React.Component {
         </div>
 
         <div className="text-center my-3">
-          <img src={SlackWithMentors} className="rounded" alt='A picture of Slack with mentors.'
-            style={{ maxWidth: '220px' }}/>
+          <img src={SlackWithMentors} className="rounded" alt="" style={{ maxWidth: '220px' }}/>
         </div>
 
         <div className='container'>
