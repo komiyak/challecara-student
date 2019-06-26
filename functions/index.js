@@ -49,8 +49,7 @@ exports.getOAuthUrl = functions.https.onCall(async (data) => {
             `&client_id=${functions.config().line_login.client_id}` +
             `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
             `&state=${encodedState}` +
-            `&scope=openid%20profile%20email` +
-            `&bot_prompt=aggressive`
+            `&scope=openid%20profile%20email`
     };
 });
 
