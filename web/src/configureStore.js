@@ -10,6 +10,8 @@ import * as firebase from 'firebase/app'
 import 'firebase/functions'
 import 'firebase/auth'
 
+import cookies from 'js-cookie'
+
 // NOTE 将来的には、オプションとして localhost の function を見れるようにしたい
 firebase.initializeApp({
   apiKey: 'AIzaSyCuuDnt1RHqFrg9_9uT-b7IGwyXZNeVL5w',
@@ -25,7 +27,7 @@ export default function configureAppStore(preloadedState) {
   const store = configureStore({
     reducer,
     middleware: [
-      thunk.withExtraArgument({ firebase }),
+      thunk.withExtraArgument({ firebase, cookies }),
       logger
     ],
     preloadedState,

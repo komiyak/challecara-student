@@ -30,7 +30,7 @@ export const newcomerController = {
    * @param location
    * @returns {Function}
    */
-  authenticate: (location) => (dispatch, getState, { firebase }) => {
+  authenticate: (location) => (dispatch, getState, { firebase, cookies }) => {
     const queryString = require('query-string')
     const queries = queryString.parse(location.search)
 
@@ -47,7 +47,9 @@ export const newcomerController = {
       }).then(result => {
         const token = result.data.token
         dispatch(newcomer.actions.receiveAuthentication(result.data))
-        dispatch(authentication.actions.updateToken(token))
+
+        // Save the api token to the user's cookie.
+        cookies.set('token', token, { secure: process.env.NODE_ENV === 'production', expires: 30 })
 
         return firebase.auth().signInWithCustomToken(token).catch(error => {
           console.error('Error code: ', error.code)
