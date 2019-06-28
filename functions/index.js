@@ -275,9 +275,11 @@ exports.addMessage = functions.https.onCall((data, context) => {
 /**
  * LINE Login 用の URL を取得する
  * @param data.redirectUrl (required) OAuth のリダイレクトURL
+ * @param data.callbackPath (optional) 認証後にリダイレクトする画面の path + query
  */
 exports.getOAuthUrl2 = functions.https.onCall((data) => {
   const redirectUrl = data.redirectUrl
+  const callbackPath = data.callbackPath
   if (!redirectUrl) {
     throw new functions.https.HttpsError(
       'invalid-argument',
@@ -285,7 +287,8 @@ exports.getOAuthUrl2 = functions.https.onCall((data) => {
   }
 
   const state = JSON.stringify({
-    token: getRandState()
+    token: getRandState(),
+    callbackPath
   })
   const encodedState = Buffer.from(state).toString('base64')
 
