@@ -320,7 +320,7 @@ exports.authenticateWithLine2 = functions.https.onCall(async (data) => {
 
   // FIXME: state は JWT にしなければ、改ざんの可能性がある
   // FIXME: state 検証を正しくしていない
-  // const decodedState = JSON.parse(new Buffer(state, 'base64').toString('ascii'));
+  const decodedState = JSON.parse(new Buffer(state, 'base64').toString('ascii'));
 
   const gaxios = require('gaxios');
   const res = await gaxios.request({
@@ -347,7 +347,7 @@ exports.authenticateWithLine2 = functions.https.onCall(async (data) => {
         // Authentication with Firebase.
         try {
           const result = await admin.auth().createCustomToken(decoded.sub)
-          return { code: 'ok', token: result }
+          return { code: 'ok', token: result, callbackPath: decodedState.callbackPath }
         } catch (e) {
           console.error(e)
         }

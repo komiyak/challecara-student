@@ -4,11 +4,13 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 import FullScreenLoading from '../components/FullScreenLoading'
-import { authenticationController } from "../redux/modules/authenticationController";
+import { authenticationController } from '../redux/modules/authenticationController'
 
 class RequiredSignInOAuthCallback extends React.Component {
   static propTypes = {
-    isFetching: PropTypes.bool.isRequired
+    isFetching: PropTypes.bool.isRequired,
+    authorized: PropTypes.bool.isRequired,
+    callbackPath: PropTypes.string
   }
 
   componentDidMount() {
@@ -30,8 +32,12 @@ class RequiredSignInOAuthCallback extends React.Component {
   }
 
   render() {
-    if (!this.props.isFetching) {
-      return <p>認証完了</p>
+    if (this.props.authorized && !this.props.isFetching) {
+      if (this.props.callbackPath) {
+        return <Redirect to={this.props.callbackPath} />
+      } else {
+        return <Redirect to='/'/>
+      }
     } else {
       return <FullScreenLoading text={'認証中'}/>
     }
@@ -40,8 +46,11 @@ class RequiredSignInOAuthCallback extends React.Component {
 
 export default connect(state => {
   const screenCallback = state.requiredSignIn.screenCallback || {}
+  const authentication = screenCallback.authentication || {}
 
   return {
-    isFetching: !!screenCallback.isFetching
+    isFetching: !!screenCallback.isFetching,
+    authorized: authentication.code === 'ok',
+    callbackPath: authentication.callbackPath
   }
 })(RequiredSignInOAuthCallback)

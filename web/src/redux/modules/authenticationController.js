@@ -4,9 +4,16 @@ export const authenticationController = {
   /**
    * [Async] LINE Login の URL を取得する (画面: /required-sign-in 用)
    */
-  fetchOAuthUrlInRequiredSignIn: match => (dispatch, getState, { firebase }) => {
+  fetchOAuthUrlInRequiredSignIn: location => (dispatch, getState, { firebase }) => {
+    const queryString = require('query-string')
+    const queries = queryString.parse(location.search)
+    const redirectFrom = queries.redirect_from
+
     dispatch(requiredSignIn.actions.requestOAuthUrl())
-    firebase.functions().httpsCallable('getOAuthUrl2')({ redirectUrl: process.env.REACT_APP_O_AUTH_CALLBACK_URL_FOR_REQUIRED_SIGN_IN })
+    firebase.functions().httpsCallable('getOAuthUrl2')({
+      redirectUrl: process.env.REACT_APP_O_AUTH_CALLBACK_URL_FOR_REQUIRED_SIGN_IN,
+      callbackPath: redirectFrom
+    })
       .then(result => {
         dispatch(requiredSignIn.actions.receiveOAuthUrl(result.data))
       })

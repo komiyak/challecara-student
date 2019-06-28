@@ -21,7 +21,7 @@ class RequiredSignIn extends React.Component {
     document.body.style.height = '100%'
     document.body.style.background = '#e8e8e8'
 
-    this.props.dispatch(authenticationController.fetchOAuthUrlInRequiredSignIn(this.props.match))
+    this.props.dispatch(authenticationController.fetchOAuthUrlInRequiredSignIn(this.props.location))
   }
 
   componentWillUnmount() {
