@@ -1,5 +1,4 @@
 import * as newcomer from './newcomer'
-import * as authentication from './authentication'
 
 export const newcomerController = {
   /**
