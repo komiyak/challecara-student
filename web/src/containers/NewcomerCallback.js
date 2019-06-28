@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 
 import { newcomerController } from '../redux/modules/newcomerController'
 
-import spinning from '../images/spinning-circles.svg'
+import FullScreenLoading from '../components/FullScreenLoading'
 
 class NewcomerCallback extends React.Component {
   static propTypes = {
@@ -34,18 +34,7 @@ class NewcomerCallback extends React.Component {
     if (this.props.redirect) {
       return <Redirect to='/newcomer/o-auth-success/'/>
     } else {
-      return (
-        <div className='d-flex flex-column justify-content-center h-100 p-3'>
-          <div className='container-fluid'>
-            <div className='row justify-content-center'>
-              <img src={spinning} width='80px' alt='Spinning'/>
-            </div>
-            <div className='row justify-content-center mt-2'>
-              <p style={{ color: 'white' }}>認証中...</p>
-            </div>
-          </div>
-        </div>
-      )
+      return <FullScreenLoading text={'認証中'}/>
     }
   }
 }
