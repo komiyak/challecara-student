@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 
+import RequiredSignIn from './containers/RequiredSignIn'
+import RequiredSignInOAuthCallback from './containers/RequiredSignInOAuthCallback'
 import Newcomer from './containers/Newcomer'
 import NewcomerCallback from './containers/NewcomerCallback'
 import NewcomerOAuthSuccess from './containers/NewcomerOAuthSuccess'
@@ -21,7 +23,9 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <Redirect exact from='/newcomer/bot-callback/' to='/newcomer/slack'/>
+        <Redirect exact from='/newcomer/bot-callback/' to='/newcomer/slack/'/>
+        <Route exact path="/required-sign-in/" component={RequiredSignIn}/>
+        <Route exact path="/required-sign-in/o-auth-callback/" component={RequiredSignInOAuthCallback}/>
         <Route exact path='/newcomer/slack/' component={NewcomerSlack}/>
         <Route exact path="/newcomer/o-auth-callback/" component={NewcomerCallback}/>
         <Route exact path="/newcomer/o-auth-success/" component={NewcomerOAuthSuccess}/>
