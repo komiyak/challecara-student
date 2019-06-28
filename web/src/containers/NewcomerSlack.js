@@ -2,9 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import cookies from 'js-cookie'
+
 import { newcomerController } from '../redux/modules/newcomerController'
 
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExternalLinkAlt, faSpinner } from '@fortawesome/free-solid-svg-icons'
@@ -19,10 +21,18 @@ class NewcomerSlack extends React.Component {
 
   componentDidMount() {
     document.title = 'Slack に参加 - チャレキャラ'
+
     this.props.dispatch(newcomerController.fetchSlackUrlIfNeeded())
   }
 
   render() {
+    const token = cookies.get('token')
+    if (!token) {
+      // 再認証へ
+      const redirectFrom = this.props.location.pathname + this.props.location.hash
+      return <Redirect to={`/required-sign-in/?redirect_from=${encodeURIComponent(redirectFrom)}`}/>
+    }
+
     let slackButton
 
     if (this.props.isFetching) {
