@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import newcomer from './redux/modules/newcomer'
-import authentication from './redux/modules/authentication'
+import requiredSignIn from './redux/modules/requiredSignIn'
 
 const reducer = combineReducers({
-  authentication,
-  newcomer
+  newcomer,
+  requiredSignIn
 })
 
 export default reducer
