@@ -24,7 +24,7 @@ class NewcomerCompletion extends React.Component {
             <div className='row'>
               <ul className='list-unstyled ml-1'>
                 <li className='mb-1'><CheckmarkIcon/> ユーザー登録した。</li>
-                <li className='mb-1'><CheckmarkIcon/> 『チャレキャラBot』 を友だちに追加した。</li>
+                <li className='mb-1'><CheckmarkIcon/> 『チャレキャラ連絡網』 を友だちに追加した。</li>
                 <li><CheckmarkIcon/> Slack に参加した。</li>
               </ul>
             </div>

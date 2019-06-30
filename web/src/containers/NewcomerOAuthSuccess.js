@@ -17,7 +17,7 @@ class NewcomerOAuthSuccess extends React.Component {
           </div>
 
           <div className='row'>
-            <p>LINE公式アカウント『チャレキャラBot』を友だち追加して、URLをクリックしてください。</p>
+            <p>LINE公式アカウント『チャレキャラ連絡網』を友だち追加して、URLをクリックしてください。</p>
           </div>
         </div>
 
@@ -26,7 +26,7 @@ class NewcomerOAuthSuccess extends React.Component {
         <div className="container mt-3">
           <div className='row'>
             <p>
-              『チャレキャラBot』はこちら。
+              『チャレキャラ連絡網』はこちら。
             </p>
           </div>
 
