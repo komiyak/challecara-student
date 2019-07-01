@@ -44,8 +44,16 @@ export const newcomerController = {
         state,
         redirectUrl: process.env.REACT_APP_O_AUTH_CALLBACK_URL
       }).then(result => {
-        const token = result.data.token
+        if (result.data.code === 'error') {
+          dispatch(newcomer.actions.finishSignIn({ result: 'ng' }))
+          return
+        }
+
+        console.log('call here?')
+
         dispatch(newcomer.actions.receiveAuthentication(result.data))
+
+        const token = result.data.token
 
         // Save the api token to the user's cookie.
         cookies.set('token', token, { secure: process.env.NODE_ENV === 'production', expires: 30 })
@@ -55,10 +63,12 @@ export const newcomerController = {
           console.error('Error message: ', error.message)
         })
       }).then(result => {
-        console.log('Success authentication')
-        console.log(result)
+        if (result) {
+          console.log('Success authentication')
+          console.log(result)
 
-        dispatch(newcomer.actions.finishSignIn())
+          dispatch(newcomer.actions.finishSignIn({ result: 'ok' }))
+        }
       })
     }
   },

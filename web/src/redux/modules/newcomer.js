@@ -41,6 +41,7 @@ const newcomer = createSlice({
       state.screen2 = state.screen2 || {}
 
       state.screen2.finished = true
+      state.screen2.result = action.payload.result
     },
     /**
      * Slack 招待リンクの取得を開始した

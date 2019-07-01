@@ -9,7 +9,8 @@ import FullScreenLoading from '../components/FullScreenLoading'
 
 class NewcomerCallback extends React.Component {
   static propTypes = {
-    redirect: PropTypes.bool.isRequired
+    finished: PropTypes.bool.isRequired,
+    result: PropTypes.string
   }
 
   componentDidMount() {
@@ -31,8 +32,12 @@ class NewcomerCallback extends React.Component {
   }
 
   render() {
-    if (this.props.redirect) {
-      return <Redirect to='/newcomer/o-auth-success/'/>
+    if (this.props.finished) {
+      if (this.props.result === 'ok') {
+        return <Redirect to='/newcomer/o-auth-success/'/>
+      } else {
+        return <FullScreenLoading errorMessage={'このアカウントはすでに LINE 登録済みのため、処理を継続できません。'}/>
+      }
     } else {
       return <FullScreenLoading text={'認証中'}/>
     }
@@ -42,6 +47,7 @@ class NewcomerCallback extends React.Component {
 export default connect(state => {
   const screen2 = state.newcomer.screen2 || {}
   return {
-    redirect: !!screen2.finished
+    finished: !!screen2.finished,
+    result: screen2.result
   }
 })(NewcomerCallback)
