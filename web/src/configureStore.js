@@ -12,8 +12,7 @@ import 'firebase/auth'
 
 import cookies from 'js-cookie'
 
-// NOTE 将来的には、オプションとして localhost の function を見れるようにしたい
-firebase.initializeApp({
+const app = firebase.initializeApp({
   apiKey: 'AIzaSyCuuDnt1RHqFrg9_9uT-b7IGwyXZNeVL5w',
   authDomain: 'challecara-student.firebaseapp.com',
   databaseURL: 'https://challecara-student.firebaseio.com',
@@ -22,6 +21,11 @@ firebase.initializeApp({
   messagingSenderId: '202630578146',
   appId: '1:202630578146:web:a970db057cb8df40'
 })
+
+// In the development, using a functions server on localhost.
+if (process.env.NODE_ENV !== 'production') {
+  app.functions().useFunctionsEmulator('http://localhost:5000')
+}
 
 export default function configureAppStore(preloadedState) {
   const store = configureStore({
