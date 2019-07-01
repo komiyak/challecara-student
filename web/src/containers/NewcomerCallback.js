@@ -36,7 +36,7 @@ class NewcomerCallback extends React.Component {
       if (this.props.result === 'ok') {
         return <Redirect to='/newcomer/o-auth-success/'/>
       } else {
-        return <FullScreenLoading errorMessage={'このアカウントはすでに LINE 登録済みのため、処理を継続できません。'}/>
+        return <FullScreenLoading errorMessage={'このアカウントはすでにユーザー登録済みのため、処理を継続できません。'}/>
       }
     } else {
       return <FullScreenLoading text={'認証中'}/>
