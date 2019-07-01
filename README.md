@@ -5,6 +5,20 @@ The Challecara is a community of software development with college students in F
 
 # Tips
 
+## How to run locally?
+
+Running with the `service-account.json`.
+
+```
+./serve.sh
+```
+
+To run a specific service.
+```
+./serve.sh hosting
+./serve.sh functions
+```
+
 ## How to request a callable function with curl?
 
 See protocol specification of the callable function:
