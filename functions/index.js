@@ -226,12 +226,15 @@ exports.authenticateWithLine = functions.https.onCall(async (data) => {
       })
 
       const userRef = usersRef.doc(decoded.sub);
-      await userRef.update({
-        student: studentRef,
-        email: decoded.email,
-        emailVerified: true,
-        avatarUrl: decoded.picture
-      });
+      const userDoc = await usersRef.get()
+      if (!userDoc.exists) {
+        await userRef.set({
+          student: studentRef,
+          email: decoded.email,
+          emailVerified: true,
+          avatarUrl: decoded.picture
+        });
+      }
 
       user_id = decoded.sub;
     } catch (e) {
