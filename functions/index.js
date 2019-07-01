@@ -164,7 +164,7 @@ exports.syncStudentRecords = functions.https.onRequest(async (request, response)
   response.status(204).end();
 });
 
-// LINE Login からのアプリ認証
+// LINE Login からのアプリ認証 & 学生ユーザー登録
 // @param data.code (required) The authorization code from LINE Login.
 // @param data.state (required) 学生情報を含む state 値
 // @param data.redirectUrl (required) the redirect_url for fetching token from LINE API.
@@ -199,11 +199,35 @@ exports.authenticateWithLine = functions.https.onCall(async (data) => {
   if (res.data.id_token) {
     const jwt = require('jsonwebtoken');
     try {
+      const studentsRef = admin.firestore().collection('students')
+      const usersRef = admin.firestore().collection('users')
+
+      const studentRef = studentsRef.doc(decodedState.uid)
+      const studentDoc = await studentRef.get()
+
+      if (!studentDoc.exists) {
+        throw new functions.https.HttpsError(
+          'unknown',
+          `A student id '${decodedState.uid}' is unknown.`);
+      }
+
       const decoded = jwt.verify(res.data.id_token, functions.config().line_login.channel_secret);
 
-      const doc = admin.firestore().collection('users').doc(decoded.sub);
-      await doc.set({
-        studentUid: decodedState.uid,
+      await usersRef.where('student', '==', studentRef).get().then(snapshot => {
+        snapshot.forEach(doc => {
+          if (doc.id !== decoded.sub) {
+            throw new functions.https.HttpsError(
+              'failed-precondition',
+              'The student already used by an other user.'
+            )
+          }
+        })
+        return true
+      })
+
+      const userRef = usersRef.doc(decoded.sub);
+      await userRef.update({
+        student: studentRef,
         email: decoded.email,
         emailVerified: true,
         avatarUrl: decoded.picture
