@@ -2,30 +2,18 @@ require('dotenv').config()
 
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
-admin.initializeApp()
+admin.initializeApp(
+  {
+    credential: admin.credential.applicationDefault(),
+    databaseURL: functions.config().core.database_url
+  }
+)
 
 const { google } = require('googleapis')
 const { auth } = require('google-auth-library')
 const sheets = google.sheets('v4')
 
-// noinspection JSUnusedLocalSymbols
-const pj = (obj) => {
-  return JSON.stringify(obj)
-}
-
-// noinspection JSUnusedLocalSymbols
-const ppj = (obj) => {
-  return JSON.stringify(obj, null, 2)
-}
-
-/**
- * 認証連携の state チェック用の乱数を得る
- * @returns {string}
- */
-const getRandState = () => {
-  const crypto = require('crypto')
-  return crypto.randomBytes(8).toString('hex')
-}
+const utils = require('./src/utils')
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
   response.send('Hello from Firebase!')
@@ -46,7 +34,7 @@ exports.getOAuthUrl = functions.https.onCall(async (data) => {
   }
 
   const state = JSON.stringify({
-    token: getRandState(), uid: studentId, year: year
+    token: utils.getRandState(), uid: studentId, year: year
   })
   const encodedState = Buffer.from(state).toString('base64')
 
@@ -212,7 +200,7 @@ exports.getOAuthUrl2 = functions.https.onCall((data) => {
   }
 
   const state = JSON.stringify({
-    token: getRandState(),
+    token: utils.getRandState(),
     callbackPath
   })
   const encodedState = Buffer.from(state).toString('base64')
