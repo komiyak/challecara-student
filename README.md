@@ -5,7 +5,7 @@ The Challecara is a community of software development with college students in F
 
 ## functions
 
-- [functions](./README.md)
+- [functions](./functions/README.md)
 
 # Tips
 
