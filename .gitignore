@@ -1,4 +1,4 @@
-# Logs
+
 logs
 *.log
 npm-debug.log*
@@ -64,12 +64,6 @@ node_modules/
 
 # Yarn Integrity file
 .yarn-integrity
-
-# dotenv environment variables file
-/.env
-# Secret environment file.
-/service-account.json
-/functions/.runtimeconfig.json
 
 # Project directory.
 .idea/
