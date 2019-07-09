@@ -7,6 +7,14 @@ const sheets = google.sheets('v4')
 
 const utils = require('./utils')
 
+/**
+ * The range batch get from the spreadsheet.
+ * @param authClient
+ * @param sheetName
+ * @param line
+ * @param endRow
+ * @returns {Promise<void>}
+ */
 const batchGet = async (authClient, sheetName, line, endRow) => {
   const res = await sheets.spreadsheets.values.get({
     auth: authClient,
