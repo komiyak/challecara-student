@@ -42,8 +42,9 @@ const fetchSchoolRecords = async (authClient, line) => {
 
       if (uid && name && phoneticName) {
         result.push({
-          uid: uid,
-          values: { name, phoneticName }
+          documentId: uid,
+          name,
+          phoneticName
         })
       }
     }
@@ -86,8 +87,9 @@ const fetchLocationRecords = async (authClient, line) => {
 
       if (uid && name && phoneticName) {
         result.push({
-          uid: uid,
-          values: { name, phoneticName }
+          documentId: uid,
+          name,
+          phoneticName
         })
       }
     }
@@ -137,17 +139,15 @@ const fetchStudentRecords = async (authClient, line) => {
 
       if (uid && school && sei && mei && phoneticSei && phoneticMei) {
         result.push({
-          uid: uid,
-          values: {
-            school,
-            year: '2019',
-            sei,
-            mei,
-            phoneticSei,
-            phoneticMei,
-            email,
-            phone
-          }
+          documentId: uid,
+          school,
+          year: 2019,
+          sei,
+          mei,
+          phoneticSei,
+          phoneticMei,
+          email,
+          phone
         })
       }
     }
@@ -158,17 +158,24 @@ const fetchStudentRecords = async (authClient, line) => {
 /**
  * Save records to the firestore.
  * @param authClient
- * @param documentName
- * @param data
+ * @param collectionName 保存先のコレクション名
+ * @param data 保存対象のオブジェクトの配列 documentId を含む場合、それをドキュメントIDとする
  * @returns {Promise<void>}
  */
-const setDocuments = async (authClient, documentName, data) => {
+const setDocumentsToFirestore = async (authClient, collectionName, data) => {
   if (data) {
-    const ref = admin.firestore().collection(documentName)
+    const ref = admin.firestore().collection(collectionName)
 
     for (let i = 0; i < data.length; i++) {
-      const item = data[i]
-      await ref.doc(item.uid).set(item.values)
+      const item = { ...data[i] }
+
+      // Remove `documentId` from the object.
+      const documentId = item.documentId
+      delete item.documentId
+
+      if (documentId) {
+        await ref.doc(documentId).set(item)
+      }
     }
   }
 }
@@ -193,11 +200,11 @@ module.exports = functions.https.onRequest(async (request, response) => {
   })
 
   // Sync the school records.
-  await setDocuments(client, 'schools', await fetchSchoolRecords(client, 30))
+  await setDocumentsToFirestore(client, 'schools', await fetchSchoolRecords(client, 30))
   // Sync the location records.
-  await setDocuments(client, 'locations', await fetchLocationRecords(client, 5))
+  await setDocumentsToFirestore(client, 'locations', await fetchLocationRecords(client, 5))
   // Sync the student records
-  await setDocuments(client, 'students', await fetchStudentRecords(client, 250))
+  await setDocumentsToFirestore(client, 'students', await fetchStudentRecords(client, 250))
 
   response.status(204).end()
 })
