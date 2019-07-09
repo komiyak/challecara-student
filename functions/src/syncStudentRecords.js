@@ -120,11 +120,11 @@ const fetchStudentRecords = async (authClient, line, schoolRecords, locationReco
       const phone = values[7] // Optional
       const locationName = values[8]
 
-      if (uid && schoolName && sei && mei && phoneticSei && phoneticMei) {
+      if (uid && schoolName && sei && mei && phoneticSei && phoneticMei && locationName) {
         const school = getRecordByName(schoolRecords, schoolName)
         const location = getRecordByName(locationRecords, locationName)
 
-        result.push({
+        const obj = {
           documentId: uid,
           school: db.doc(`schools/${school.documentId}`),
           location: db.doc(`locations/${location.documentId}`),
@@ -132,10 +132,15 @@ const fetchStudentRecords = async (authClient, line, schoolRecords, locationReco
           sei,
           mei,
           phoneticSei,
-          phoneticMei,
-          email,
-          phone
-        })
+          phoneticMei
+        }
+        if (email) {
+          obj.email = email
+        }
+        if (phone) {
+          obj.phone = phone
+        }
+        result.push(obj)
       }
     }
   }
