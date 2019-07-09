@@ -7,6 +7,26 @@ const sheets = google.sheets('v4')
 
 const utils = require('./utils')
 
+const batchGet = async (authClient, sheetName, line, endRow) => {
+  const res = await sheets.spreadsheets.values.get({
+    auth: authClient,
+    spreadsheetId: functions.config().student_record.spreadsheet_id,
+    range: `${sheetName}!A2:A${line}`
+  })
+
+  let ranges = []
+  for (let i = 0; i < res.data.values.length; i++) {
+    const currentLine = 2 + i
+    ranges.push(`${sheetName}!A${currentLine}:${endRow}${currentLine}`)
+  }
+
+  return await sheets.spreadsheets.values.batchGet({
+    auth: authClient,
+    spreadsheetId: functions.config().student_record.spreadsheet_id,
+    ranges: ranges
+  })
+}
+
 /**
  * Fetch school records from the spreadsheet.
  * @param authClient
@@ -14,23 +34,7 @@ const utils = require('./utils')
  * @returns {Promise<Array>}
  */
 const fetchSchoolRecords = async (authClient, line) => {
-  const res = await sheets.spreadsheets.values.get({
-    auth: authClient,
-    spreadsheetId: functions.config().student_record.spreadsheet_id,
-    range: `School!A2:A${line}`
-  })
-
-  let ranges = []
-  for (let i = 0; i < res.data.values.length; i++) {
-    const currentLine = 2 + i
-    ranges.push(`School!A${currentLine}:C${currentLine}`)
-  }
-
-  const batchGetRes = await sheets.spreadsheets.values.batchGet({
-    auth: authClient,
-    spreadsheetId: functions.config().student_record.spreadsheet_id,
-    ranges: ranges
-  })
+  const batchGetRes = await batchGet(authClient, 'School', line, 'C')
 
   let result = []
   if (batchGetRes.data.valueRanges) {
@@ -59,23 +63,7 @@ const fetchSchoolRecords = async (authClient, line) => {
  * @returns {Promise<Array>}
  */
 const fetchLocationRecords = async (authClient, line) => {
-  const res = await sheets.spreadsheets.values.get({
-    auth: authClient,
-    spreadsheetId: functions.config().student_record.spreadsheet_id,
-    range: `Location!A2:A${line}`
-  })
-
-  let ranges = []
-  for (let i = 0; i < res.data.values.length; i++) {
-    const currentLine = 2 + i
-    ranges.push(`Location!A${currentLine}:C${currentLine}`)
-  }
-
-  const batchGetRes = await sheets.spreadsheets.values.batchGet({
-    auth: authClient,
-    spreadsheetId: functions.config().student_record.spreadsheet_id,
-    ranges: ranges
-  })
+  const batchGetRes = await batchGet(authClient, 'Location', line, 'C')
 
   let result = []
   if (batchGetRes.data.valueRanges) {
@@ -104,25 +92,7 @@ const fetchLocationRecords = async (authClient, line) => {
  * @returns {Promise<Array>}
  */
 const fetchStudentRecords = async (authClient, line) => {
-  const sheetName = '2019'
-
-  const res = await sheets.spreadsheets.values.get({
-    auth: authClient,
-    spreadsheetId: functions.config().student_record.spreadsheet_id,
-    range: `${sheetName}!A2:A${line}`
-  })
-
-  let ranges = []
-  for (let i = 0; i < res.data.values.length; i++) {
-    const currentLine = 2 + i
-    ranges.push(`${sheetName}!A${currentLine}:H${currentLine}`)
-  }
-
-  const batchGetRes = await sheets.spreadsheets.values.batchGet({
-    auth: authClient,
-    spreadsheetId: functions.config().student_record.spreadsheet_id,
-    ranges: ranges
-  })
+  const batchGetRes = await batchGet(authClient, '2019', line, 'H')
 
   let result = []
   if (batchGetRes.data.valueRanges) {
