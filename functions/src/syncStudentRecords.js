@@ -97,28 +97,37 @@ const fetchLocationRecords = async (authClient, line) => {
  * Fetch student records from the spreadsheet.
  * @param authClient
  * @param line
+ * @param schoolRecords A collection of a school for the reference type.
+ * @param locationRecords A collection of a location for the reference type.
  * @returns {Promise<Array>}
  */
-const fetchStudentRecords = async (authClient, line) => {
-  const batchGetRes = await batchGet(authClient, '2019', line, 'H')
+const fetchStudentRecords = async (authClient, line, schoolRecords, locationRecords) => {
+  const batchGetRes = await batchGet(authClient, '2019', line, 'I')
 
   let result = []
   if (batchGetRes.data.valueRanges) {
+    const db = admin.firestore()
+
     for (let i = 0; i < batchGetRes.data.valueRanges.length; i++) {
       const values = batchGetRes.data.valueRanges[i].values[0]
       const uid = values[0]
-      const school = values[1]
+      const schoolName = values[1]
       const sei = values[2]
       const mei = values[3]
       const phoneticSei = values[4]
       const phoneticMei = values[5]
       const email = values[6] // Optional
       const phone = values[7] // Optional
+      const locationName = values[8]
 
-      if (uid && school && sei && mei && phoneticSei && phoneticMei) {
+      if (uid && schoolName && sei && mei && phoneticSei && phoneticMei) {
+        const school = getRecordByName(schoolRecords, schoolName)
+        const location = getRecordByName(locationRecords, locationName)
+
         result.push({
           documentId: uid,
-          school,
+          school: db.doc(`schools/${school.documentId}`),
+          location: db.doc(`locations/${location.documentId}`),
           year: 2019,
           sei,
           mei,
@@ -131,6 +140,15 @@ const fetchStudentRecords = async (authClient, line) => {
     }
   }
   return result
+}
+
+const getRecordByName = (records, name) => {
+  for (let record of records) {
+    if (name === record.name) {
+      return record
+    }
+  }
+  return null
 }
 
 /**
@@ -177,12 +195,15 @@ module.exports = functions.https.onRequest(async (request, response) => {
     scopes: 'https://www.googleapis.com/auth/spreadsheets'
   })
 
+  const schoolRecords = await fetchSchoolRecords(client, 30)
+  const locationRecords = await fetchLocationRecords(client, 5)
+
   // Sync the school records.
-  await setDocumentsToFirestore(client, 'schools', await fetchSchoolRecords(client, 30))
+  await setDocumentsToFirestore(client, 'schools', schoolRecords)
   // Sync the location records.
-  await setDocumentsToFirestore(client, 'locations', await fetchLocationRecords(client, 5))
+  await setDocumentsToFirestore(client, 'locations', locationRecords)
   // Sync the student records
-  await setDocumentsToFirestore(client, 'students', await fetchStudentRecords(client, 250))
+  await setDocumentsToFirestore(client, 'students', await fetchStudentRecords(client, 250, schoolRecords, locationRecords))
 
   response.status(204).end()
 })
