@@ -9,10 +9,6 @@ admin.initializeApp(
   }
 )
 
-const { google } = require('googleapis')
-const { auth } = require('google-auth-library')
-const sheets = google.sheets('v4')
-
 const utils = require('./src/utils')
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
@@ -49,6 +45,10 @@ exports.getOAuthUrl = functions.https.onCall(async (data) => {
 })
 
 exports.syncStudentRecords = require('./src/syncStudentRecords')
+
+exports.kickExportingPdf = require('./src/kickExportingPdf')
+
+exports.exportPdf = require('./src/exportPdf')
 
 // LINE Login からのアプリ認証 & 学生ユーザー登録
 // @param data.code (required) The authorization code from LINE Login.
