@@ -115,12 +115,12 @@ const fetchStudentRecords = async (authClient, line, schoolRecords, locationReco
       const sei = values[2]
       const mei = values[3]
       const phoneticSei = values[4]
-      const phoneticMei = values[5]
+      const phoneticMei = values[5] // Optional
       const email = values[6] // Optional
       const phone = values[7] // Optional
       const locationName = values[8]
 
-      if (uid && schoolName && sei && mei && phoneticSei && phoneticMei && locationName) {
+      if (uid && schoolName && sei && mei && phoneticSei && locationName) {
         const school = getRecordByName(schoolRecords, schoolName)
         const location = getRecordByName(locationRecords, locationName)
 
@@ -131,8 +131,10 @@ const fetchStudentRecords = async (authClient, line, schoolRecords, locationReco
           year: 2019,
           sei,
           mei,
-          phoneticSei,
-          phoneticMei
+          phoneticSei
+        }
+        if (phoneticMei) {
+          obj.phoneticMei = phoneticMei
         }
         if (email) {
           obj.email = email
