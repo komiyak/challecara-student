@@ -102,7 +102,7 @@ const fetchLocationRecords = async (authClient, line) => {
  * @returns {Promise<Array>}
  */
 const fetchStudentRecords = async (authClient, line, schoolRecords, locationRecords) => {
-  const batchGetRes = await batchGet(authClient, '2019', line, 'I')
+  const batchGetRes = await batchGet(authClient, '2019', line, 'J')
 
   let result = []
   if (batchGetRes.data.valueRanges) {
@@ -111,16 +111,17 @@ const fetchStudentRecords = async (authClient, line, schoolRecords, locationReco
     for (let i = 0; i < batchGetRes.data.valueRanges.length; i++) {
       const values = batchGetRes.data.valueRanges[i].values[0]
       const uid = values[0]
-      const schoolName = values[1]
-      const sei = values[2]
-      const mei = values[3]
-      const phoneticSei = values[4]
-      const phoneticMei = values[5] // Optional
-      const email = values[6] // Optional
-      const phone = values[7] // Optional
-      const locationName = values[8]
+      const checkbox = values[1]
+      const schoolName = values[2]
+      const sei = values[3]
+      const mei = values[4]
+      const phoneticSei = values[5]
+      const phoneticMei = values[6] // Optional
+      const email = values[7] // Optional
+      const phone = values[8] // Optional
+      const locationName = values[9]
 
-      if (uid && schoolName && sei && mei && phoneticSei && locationName) {
+      if (uid && schoolName && sei && mei && phoneticSei && locationName && checkbox) {
         const school = getRecordByName(schoolRecords, schoolName)
         const location = getRecordByName(locationRecords, locationName)
 
@@ -131,7 +132,8 @@ const fetchStudentRecords = async (authClient, line, schoolRecords, locationReco
           year: 2019,
           sei,
           mei,
-          phoneticSei
+          phoneticSei,
+          enablePrint: checkbox === 'FALSE'
         }
         if (phoneticMei) {
           obj.phoneticMei = phoneticMei
